@@ -41,6 +41,8 @@ Written by Charles Seizilles de Mazancourt
 #undef far
 #endif
 
+#include <cstdint>
+
 namespace cdm
 {
 constexpr uint64_t VERSION_MAJOR = 3;
