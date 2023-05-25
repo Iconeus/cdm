@@ -32,6 +32,7 @@ Written by Charles Seizilles de Mazancourt
 #include <cdm/decl/maths/quaternion.hpp>
 #include <cdm/decl/maths/radian.hpp>
 
+#include <cassert>
 #include <ostream>
 
 namespace cdm
