@@ -1,8 +1,9 @@
 add_rules("mode.release", "mode.debug", "mode.releasedbg")
-add_requires("catch2 2.13.9")
 
 set_arch("x64")
 set_plat("windows")
+
+set_policy("build.ccache", false)
 
 -- Generates a hash key made of packages confs/version, for CI
 task("dephash")
@@ -29,6 +30,48 @@ task("dephash")
 	}
 task_end()
 
+rule("format_before_build")
+	before_build(function(target)
+		import("detect.sdks.find_vstudio")
+		import("lib.detect.find_program")
+
+		local vstudio = find_vstudio()
+		local vs = vstudio["2022"]
+		if vs == nil then
+			vs = vstudio["2019"]
+
+			if vs == nil then
+				raise("Visual Studio 2022 or 2019 is required")
+			end
+		end
+
+		local clangformat = find_program("clang-format.exe", {envs = {PATH = vs.vcvarsall.x64.PATH}})
+		if clangformat == nil or clangformat == "" then
+			print("clang-format.exe not found in", vs.vcvarsall.x64.PATH)
+			raise("clang-format is required. Please install the C++ Clang Compiler for Windows >= 15.0.1 in Visual Studio Install Individual components (Tools/Get Tools and Features...)")
+		end
+
+		local sourcefiles = target:sourcefiles()
+		local headerfiles = target:headerfiles()
+
+		for k, v in pairs(sourcefiles) do
+			os.exec(clangformat .. " --style=file -i " .. v)
+		end
+		for k, v in pairs(headerfiles) do
+			os.exec(clangformat .. " --style=file -i " .. v)
+		end
+	end)
+rule_end()
+
+target("cdm")
+	set_kind("phony")
+	set_languages("c++20")
+	add_rules("format_before_build")
+	add_installfiles("include/(**.hpp)", {prefixdir = "include"})
+	add_headerfiles("include/**.hpp")
+	add_includedirs("include")
+target_end()
+
 local tests = {
 	"direction",
 	"line",
@@ -53,15 +96,18 @@ local tests = {
 	"vector4",
 }
 
+add_requires("catch2 2.13.9")
+
 for _,v in pairs(tests) do
 	target("cdm_test_"..v)
 		set_kind("binary")
 		set_languages("c++20")
+		add_deps("cdm")
 		add_files("tests/"..v..".cpp")
-		add_headerfiles("*.hpp")
+		add_headerfiles("include/**.hpp")
 		add_headerfiles("tests/*.hpp")
 		add_packages("catch2")
-		add_includedirs(".", "tests")
+		add_includedirs("include", "tests")
 		set_group("test")
 	target_end()
 end

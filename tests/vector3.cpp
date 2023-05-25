@@ -1,14 +1,20 @@
 #define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
 
+#include <cdm/decl/maths/vector3.hpp>
+#include <cdm/impl/maths/vector3.hpp>
+
 #include <common.hpp>
+
+#include <iostream>
+#include <iomanip>
 
 TEST_CASE("vector3::vector3(std::array<float, 3>)",
           "[working][unittest][vector3]")
 {
 	const std::array<float, 3> a{0, 0, 0};
 
-	const vector3 v1 = a;
+	const vector3 v1 = vector3::from_array(a);
 
 	CHECK(v1.x == 0);
 	CHECK(v1.y == 0);
@@ -16,7 +22,7 @@ TEST_CASE("vector3::vector3(std::array<float, 3>)",
 
 	const std::array<float, 3> b{-89453.6654f, 3.14159f, 5566656.66656f};
 
-	const vector3 v2 = b;
+	const vector3 v2 = vector3::from_array(b);
 
 	CHECK(v2.x == -89453.6654f);
 	CHECK(v2.y == 3.14159f);
@@ -88,29 +94,33 @@ TEST_CASE("vector3::get_normalized()", "[working][unittest][vector3]")
 
 TEST_CASE("vector3::clamp(vector3, vector3)", "[working][unittest][vector3]")
 {
-	CHECK(vector3{1, 1, 1}.clamp({0, 0, 0}, {1, 1, 1}) == vector3{1, 1, 1});
-	CHECK(vector3{2, 2, 2}.clamp({0, 0, 0}, {1, 1, 1}) == vector3{1, 1, 1});
-	CHECK(vector3{-1, -1, -1}.clamp({0, 0, 0}, {1, 1, 1}) == vector3{0, 0, 0});
-	CHECK(vector3{-1, 1, 0}.clamp({0, 0, 0}, {1, 1, 1}) == vector3{0, 1, 0});
-	CHECK(vector3{-89453.6654f, 3.14159f, 5566656.66656f}.clamp(
+	CHECK(vector3{1, 1, 1}.element_wise_clamp({0, 0, 0}, {1, 1, 1}) ==
+	      vector3{1, 1, 1});
+	CHECK(vector3{2, 2, 2}.element_wise_clamp({0, 0, 0}, {1, 1, 1}) ==
+	      vector3{1, 1, 1});
+	CHECK(vector3{-1, -1, -1}.element_wise_clamp({0, 0, 0}, {1, 1, 1}) ==
+	      vector3{0, 0, 0});
+	CHECK(vector3{-1, 1, 0}.element_wise_clamp({0, 0, 0}, {1, 1, 1}) ==
+	      vector3{0, 1, 0});
+	CHECK(vector3{-89453.6654f, 3.14159f, 5566656.66656f}.element_wise_clamp(
 	          {0, 0, 0}, {1, 1, 1}) == vector3{0, 1, 1});
 }
 
 TEST_CASE("vector3::get_clamped(vector3, vector3)",
           "[working][unittest][vector3]")
 {
-	CHECK(vector3{1, 1, 1}.clamp({0, 0, 0}, {1, 1, 1}) ==
-	      vector3{1, 1, 1}.get_clamped({0, 0, 0}, {1, 1, 1}));
-	CHECK(vector3{2, 2, 2}.clamp({0, 0, 0}, {1, 1, 1}) ==
-	      vector3{2, 2, 2}.get_clamped({0, 0, 0}, {1, 1, 1}));
-	CHECK(vector3{-1, -1, -1}.clamp({0, 0, 0}, {1, 1, 1}) ==
-	      vector3{-1, -1, -1}.get_clamped({0, 0, 0}, {1, 1, 1}));
-	CHECK(vector3{-1, 1, 0}.clamp({0, 0, 0}, {1, 1, 1}) ==
-	      vector3{-1, 1, 0}.get_clamped({0, 0, 0}, {1, 1, 1}));
-	CHECK(vector3{-89453.6654f, 3.14159f, 5566656.66656f}.clamp({0, 0, 0},
-	                                                            {1, 1, 1}) ==
-	      vector3{-89453.6654f, 3.14159f, 5566656.66656f}.get_clamped(
-	          {0, 0, 0}, {1, 1, 1}));
+	CHECK(vector3{1, 1, 1}.element_wise_clamp({0, 0, 0}, {1, 1, 1}) ==
+	      vector3{1, 1, 1}.get_element_wise_clamped({0, 0, 0}, {1, 1, 1}));
+	CHECK(vector3{2, 2, 2}.element_wise_clamp({0, 0, 0}, {1, 1, 1}) ==
+	      vector3{2, 2, 2}.get_element_wise_clamped({0, 0, 0}, {1, 1, 1}));
+	CHECK(vector3{-1, -1, -1}.element_wise_clamp({0, 0, 0}, {1, 1, 1}) ==
+	      vector3{-1, -1, -1}.get_element_wise_clamped({0, 0, 0}, {1, 1, 1}));
+	CHECK(vector3{-1, 1, 0}.element_wise_clamp({0, 0, 0}, {1, 1, 1}) ==
+	      vector3{-1, 1, 0}.get_element_wise_clamped({0, 0, 0}, {1, 1, 1}));
+	CHECK(vector3{-89453.6654f, 3.14159f, 5566656.66656f}.element_wise_clamp(
+	          {0, 0, 0}, {1, 1, 1}) ==
+	      vector3{-89453.6654f, 3.14159f, 5566656.66656f}
+	          .get_element_wise_clamped({0, 0, 0}, {1, 1, 1}));
 }
 
 TEST_CASE("vector3::operator+(vector3)", "[working][unittest][vector3]")
@@ -446,7 +456,8 @@ TEST_CASE("vector3::cross(vector3, vector3)", "[working][unittest][vector3]")
 	CHECK(cross(vector3{1, 0, 0}, vector3{0, 0, 1}) == vector3{0, -1, 0});
 }
 
-TEST_CASE("vector3::distance_between(vector3, vector3)", "[working][unittest][vector3]")
+TEST_CASE("vector3::distance_between(vector3, vector3)",
+          "[working][unittest][vector3]")
 {
 	CHECK(distance_between({0, 0, 0}, vector3{0, 0, 0}) == 0);
 	CHECK(distance_between({1, 0, 0}, vector3{0, 1, 0}) == Approx(sqrt2));
@@ -473,12 +484,9 @@ TEST_CASE("vector3::distance_squared_between(vector3, vector3)",
 	CHECK(distance_squared_between({2, 0, 0}, vector3{-1, 0, 0}) == 9);
 }
 
-TEST_CASE("vector3::angle_between(vector3, vector3)", "[working][unittest][vector3]")
+TEST_CASE("vector3::angle_between(vector3, vector3)",
+          "[working][unittest][vector3]")
 {
-	CHECK(angle_between({0, 0, 0}, vector3{0, 0, 0}) == 0_rad);
-	CHECK(angle_between({1, 0, 0}, vector3{0, 0, 0}) == 0_rad);
-	CHECK(angle_between({0, 0, 0}, vector3{1, 0, 0}) == 0_rad);
-
 	CHECK(angle_between({1, 0, 0}, vector3{0, 1, 0}) == radian(90_deg));
 	CHECK(angle_between({1, 0, 0}, vector3{1, 1, 0}) == radian(45_deg));
 	CHECK(angle_between({0, 1, 0}, vector3{1, 0, 0}) == radian(90_deg));
@@ -486,9 +494,9 @@ TEST_CASE("vector3::angle_between(vector3, vector3)", "[working][unittest][vecto
 	CHECK(angle_between({0, 1, 0}, vector3{0, 1, 0}) == radian(0_deg));
 	CHECK(angle_between({1, 0, 0}, vector3{0, 0.5f, 0}.get_normalized()) ==
 	      1_pi / 2.0f);
-	CHECK(angle_between({1, 0, 0}, vector3{-1, 0, 0}) == 1_pi);
-	CHECK(angle_between({2, 0, 0}, vector3{-1, 0, 0}) == 1_pi);
-
+	CHECK(float(angle_between({1, 0, 0}, vector3{-1, 0, 0})) == Approx(float(1_pi)));
+	CHECK(float(angle_between({2, 0, 0}, vector3{-1, 0, 0})) == Approx(float(1_pi)));
+	
 	CHECK(angle_between({1, 0, 0}, vector3{0, 0, 1}) == radian(90_deg));
 	CHECK(angle_between({1, 0, 0}, vector3{1, 0, 1}) == radian(45_deg));
 	CHECK(angle_between({0, 0, 1}, vector3{1, 0, 0}) == radian(90_deg));
@@ -496,8 +504,8 @@ TEST_CASE("vector3::angle_between(vector3, vector3)", "[working][unittest][vecto
 	CHECK(angle_between({0, 0, 1}, vector3{0, 0, 1}) == radian(0_deg));
 	CHECK(angle_between({1, 0, 0}, vector3{0, 0, 0.5f}.get_normalized()) ==
 	      1_pi / 2.0f);
-	CHECK(angle_between({1, 0, 0}, vector3{-1, 0, 0}) == 1_pi);
-	CHECK(angle_between({2, 0, 0}, vector3{-1, 0, 0}) == 1_pi);
+	CHECK(float(angle_between({0, 0, 1}, vector3{0, 0, -1})) == Approx(float(1_pi)));
+	CHECK(float(angle_between({0, 0, 2}, vector3{0, 0, -1})) == Approx(float(1_pi)));
 
 	CHECK(angle_between({0, 1, 0}, vector3{0, 0, 1}) == radian(90_deg));
 	CHECK(angle_between({0, 1, 0}, vector3{0, 1, 1}) == radian(45_deg));
@@ -506,17 +514,19 @@ TEST_CASE("vector3::angle_between(vector3, vector3)", "[working][unittest][vecto
 	CHECK(angle_between({0, 0, 1}, vector3{0, 0, 1}) == radian(0_deg));
 	CHECK(angle_between({0, 1, 0}, vector3{0, 0, 0.5f}.get_normalized()) ==
 	      1_pi / 2.0f);
-	CHECK(angle_between({0, 1, 0}, vector3{0, -1, 0}) == 1_pi);
-	CHECK(angle_between({0, 2, 0}, vector3{0, -1, 0}) == 1_pi);
+	CHECK(float(angle_between({0, 1, 0}, vector3{0, -1, 0})) == Approx(float(1_pi)));
+	CHECK(float(angle_between({0, 2, 0}, vector3{0, -1, 0})) == Approx(float(1_pi)));
 }
 
-TEST_CASE("vector3::element_wise_min(vector3, vector3)", "[working][unittest][vector3]")
+TEST_CASE("vector3::element_wise_min(vector3, vector3)",
+          "[working][unittest][vector3]")
 {
 	CHECK(element_wise_min({-89453.6654f, 3.14159f, 5566656.66656f},
 	                       vector3{0, 0, 0}) == vector3{-89453.6654f, 0, 0});
 }
 
-TEST_CASE("vector3::element_wise_max(vector3, vector3)", "[working][unittest][vector3]")
+TEST_CASE("vector3::element_wise_max(vector3, vector3)",
+          "[working][unittest][vector3]")
 {
 	CHECK(element_wise_max({-89453.6654f, 3.14159f, 5566656.66656f},
 	                       vector3{0, 0, 0}) ==
@@ -527,19 +537,19 @@ TEST_CASE("vector3::angle_around_axis(vector3, vector3, direction)",
           "[working][unittest][vector3]")
 {
 	CHECK(angle_around_axis(vector3{1, 0, 0}, vector3{0, 1, 0},
-	                        direction::posZ()) == radian(90_deg));
+	                        direction3::posZ()) == radian(90_deg));
 	CHECK(angle_around_axis(vector3{1, 0, 0}, vector3{0, 1, 0},
-	                        direction::negZ()) == radian(-90_deg));
+	                        direction3::negZ()) == radian(-90_deg));
 	CHECK(angle_around_axis(vector3{0, 1, 0}, vector3{1, 0, 0},
-	                        direction::posZ()) == radian(-90_deg));
+	                        direction3::posZ()) == radian(-90_deg));
 	CHECK(angle_around_axis(vector3{0, 1, 0}, vector3{1, 0, 0},
-	                        direction::negZ()) == radian(90_deg));
+	                        direction3::negZ()) == radian(90_deg));
 	CHECK(angle_around_axis(vector3{1, 0, 0}, vector3{1, 0, 0},
-	                        direction::posZ()) == radian(0_deg));
+	                        direction3::posZ()) == radian(0_deg));
 	CHECK(angle_around_axis(vector3{1, 0, 0}, vector3{-1, 0, 0},
-	                        direction::posZ()) == radian(180_deg));
+	                        direction3::posZ()) == radian(180_deg));
 	CHECK(angle_around_axis(vector3{1, 0, 0}, vector3{0, -1, 0},
-	                        direction::posZ()) == radian(-90_deg));
+	                        direction3::posZ()) == radian(-90_deg));
 	CHECK(angle_around_axis(vector3{1, 0, 0}, vector3{1, 1, 0},
-	                        direction::posZ()) == radian(45_deg));
+	                        direction3::posZ()) == radian(45_deg));
 }

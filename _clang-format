@@ -8,6 +8,7 @@ AllowShortIfStatementsOnASingleLine: false
 IndentCaseLabels: false
 ColumnLimit: 79
 AccessModifierOffset : -4
+# InsertNewlineAtEOF: true
 
 
 

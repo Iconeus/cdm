@@ -410,7 +410,7 @@ TEST_CASE("matrix4::rotation_around_x(radian)", "[working][unittest][matrix4]")
 {
 	using ::Catch::Matchers::WithinAbs;
 
-	const direction axis = direction::posX();
+	const direction3 axis = direction3::posX();
 
 	const vector4 v0{0.0f, 1.0f, 0.0f, 0.0f};
 	const vector4 vE{0.0f, 0.0f, 1.0f, 0.0f};
@@ -522,7 +522,7 @@ TEST_CASE("matrix4::rotation_around_y(radian)", "[working][unittest][matrix4]")
 		CHECK_THAT(v1, Vector4Matcher(vE));
 
 		matrix4 m2 = matrix4::rotation(
-		    quaternion{direction::posY(), static_pi_fraction<1, 2>{}});
+		    quaternion{direction3::posY(), static_pi_fraction<1, 2>{}});
 		CHECK_THAT(m, Matrix4Matcher(m2));
 	}
 
@@ -555,7 +555,7 @@ TEST_CASE("matrix4::rotation_around_z(radian)", "[working][unittest][matrix4]")
 		CHECK_THAT(v1, Vector4Matcher(vE));
 
 		const matrix4 m2 = matrix4::rotation(
-		    quaternion{direction::posZ(), static_pi_fraction<1, 2>{}});
+		    quaternion{direction3::posZ(), static_pi_fraction<1, 2>{}});
 		const vector4 v2 = m2 * v0;
 		CHECK_THAT(v2, Vector4Matcher(vE));
 
@@ -594,7 +594,7 @@ TEST_CASE("matrix4::rotation_around_z(complex)",
 		CHECK(std::abs(v1.w) == almost_0);
 
 		matrix4 m2 = matrix4::rotation(
-		    quaternion{direction::posZ(), static_pi_fraction<1, 2>{}});
+		    quaternion{direction3::posZ(), static_pi_fraction<1, 2>{}});
 		REQUIRE_THAT(m, Matrix4Matcher(m2));
 	}
 
@@ -705,32 +705,6 @@ TEST_CASE("matrix4::column(int)", "[working][unittest][matrix4]")
 		REQUIRE(m.column(i).row(3) == -4.0f);
 		REQUIRE(m.column(i) == vector4(-1.0f, -2.0f, -3.0f, -4.0f));
 	}
-}
-
-TEST_CASE("matrix4::diag(int)", "[working][unittest][matrix4]")
-{
-	vector4 v0{1.0f, 2.0f, 3.0f, 4.0f};
-	vector4 v1{5.0f, 6.0f, 7.0f, 8.0f};
-	vector4 v2{9.0f, 10.0f, 11.0f, 12.0f};
-	vector4 v3{13.0f, 14.0f, 15.0f, 16.0f};
-
-	matrix4 m = matrix4::columns(v0, v1, v2, v3);
-
-	REQUIRE(v0.x == m.diag(0));
-	REQUIRE(v1.y == m.diag(1));
-	REQUIRE(v2.z == m.diag(2));
-	REQUIRE(v3.w == m.diag(3));
-
-	m.diag(0) = -1.0f;
-	m.diag(1) = -2.0f;
-	m.diag(2) = -3.0f;
-	m.diag(3) = -4.0f;
-
-	REQUIRE(m.diag(0) == -1.0f);
-	REQUIRE(m.diag(1) == -2.0f);
-	REQUIRE(m.diag(2) == -3.0f);
-	REQUIRE(m.diag(3) == -4.0f);
-	REQUIRE(m.diag() == vector4(-1.0f, -2.0f, -3.0f, -4.0f));
 }
 
 TEST_CASE("matrix4::diag()", "[working][unittest][matrix4]")

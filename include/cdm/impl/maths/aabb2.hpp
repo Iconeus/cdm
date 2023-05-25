@@ -1,5 +1,5 @@
-/* cdm_concepts v0.1.0
-   C++20 utility concepts
+/* cdm_maths v3.0.0
+   C++20 geometric library
    https://github.com/WubiCookie/cdm
    no warranty implied; use at your own risk
 
@@ -25,28 +25,29 @@ CREDITS
 Written by Charles Seizilles de Mazancourt
 */
 
-#ifndef CDM_CONCEPTS_HPP
-#define CDM_CONCEPTS_HPP
+#ifndef CDM_MATHS_IMPL_AABB2_HPP
+#define CDM_MATHS_IMPL_AABB2_HPP 1
 
-#include <concepts>
-#include <type_traits>
+#include <cdm/decl/maths/aabb2.hpp>
+#include <cdm/decl/maths/vector2.hpp>
 
 namespace cdm
 {
 template <typename T>
-concept resizable = requires(T& t)
+constexpr bool aabb2_T<T>::contains(vector2_T<T> v) const
 {
-	t.resize(0);
-};
+	return (v.x >= origin.x) && (v.x <= origin.x + dimention.x) &&
+	       (v.y >= origin.y) && (v.y <= origin.y + dimention.y);
+}
 
 template <typename T>
-concept trivial = std::is_trivial_v<T>;
-
-template <typename T>
-concept standard_layout = std::is_standard_layout_v<T>;
-
-template <typename T>
-concept arithmetic = std::integral<T> || std::floating_point<T>;
+constexpr bool collides(aabb2_T<T> r1, aabb2_T<T> r2)
+{
+	return collides(r1, r2.origin) ||
+	       collides(r1, r2.origin + vector2_T<T>(r2.dimention.x, T(0))) ||
+	       collides(r1, r2.origin + vector2_T<T>(T(0), r2.dimention.y)) ||
+	       collides(r1, r2.origin + r2.dimention);
+}
 }  // namespace cdm
 
-#endif  // CDM_CONCEPTS_HPP
+#endif  // CDM_MATHS_IMPL_AABB2_HPP

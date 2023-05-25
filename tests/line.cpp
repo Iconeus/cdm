@@ -5,7 +5,7 @@
 
 TEST_CASE("line<SlopeIntercept>::line(T, T)", "[working][unittest][line]")
 {
-	using line_type = line<line_representation::SlopeIntercept>;
+	using line_type = line2<line_representation::SlopeIntercept>;
 	{
 		line_type l(0.0f, 0.0f);
 
@@ -32,9 +32,10 @@ TEST_CASE("line<SlopeIntercept>::line(T, T)", "[working][unittest][line]")
 	}
 }
 
-TEST_CASE("line<SlopeIntercept>::line(vector2_t<T>)", "[working][unittest][line]")
+TEST_CASE("line<SlopeIntercept>::line(vector2_T<T>)",
+          "[working][unittest][line]")
 {
-	using line_type = line<line_representation::SlopeIntercept>;
+	using line_type = line2<line_representation::SlopeIntercept>;
 	{
 		line_type l(vector2{1.0f, 1.0f});
 
@@ -91,10 +92,10 @@ TEST_CASE("line<SlopeIntercept>::line(vector2_t<T>)", "[working][unittest][line]
 	}
 }
 
-TEST_CASE("line<SlopeIntercept>::line(vector2_t<T>, vector2_t<T>)",
+TEST_CASE("line<SlopeIntercept>::line(vector2_T<T>, vector2_T<T>)",
           "[working][unittest][line]")
 {
-	using line_type = line<line_representation::SlopeIntercept>;
+	using line_type = line2<line_representation::SlopeIntercept>;
 	{
 		line_type l({0.0f, 0.0f}, {1.0f, 1.0f});
 
@@ -117,7 +118,7 @@ TEST_CASE("line<SlopeIntercept>::line(vector2_t<T>, vector2_t<T>)",
 
 TEST_CASE("line<SlopeIntercept>::resolve_for_x", "[working][unittest][line]")
 {
-	using line_type = line<line_representation::SlopeIntercept>;
+	using line_type = line2<line_representation::SlopeIntercept>;
 	{
 		line_type l(0.0f, 0.0f);
 
@@ -150,7 +151,7 @@ TEST_CASE("line<SlopeIntercept>::resolve_for_x", "[working][unittest][line]")
 
 TEST_CASE("line<SlopeIntercept>::resolve_for_y", "[working][unittest][line]")
 {
-	using line_type = line<line_representation::SlopeIntercept>;
+	using line_type = line2<line_representation::SlopeIntercept>;
 	{
 		line_type l(1.0f, 0.0f);
 

@@ -2,10 +2,10 @@
 #define CDM_TESTS_COMMON_HPP 1
 
 #include <catch2/catch.hpp>
-#include <cdm_maths.hpp>
+#include <cdm/maths.hpp>
 
 #include <array>
-#include <iostream>
+#include <ostream>
 
 using namespace cdm;
 

@@ -342,7 +342,7 @@ TEST_CASE("matrix3::rotation_around_x(radian)", "[working][unittest][matrix3]")
 {
 	using ::Catch::Matchers::WithinAbs;
 
-	const direction axis = direction::posX();
+	const direction3 axis = direction3::posX();
 
 	const vector3 v0{0.0f, 1.0f, 0.0f};
 	const vector3 vE{0.0f, 0.0f, 1.0f};
@@ -454,7 +454,7 @@ TEST_CASE("matrix3::rotation_around_y(radian)", "[working][unittest][matrix3]")
 		CHECK_THAT(v1, Vector3Matcher(vE));
 
 		matrix3 m2 = matrix3::rotation(
-		    quaternion{direction::posY(), static_pi_fraction<1, 2>{}});
+		    quaternion{direction3::posY(), static_pi_fraction<1, 2>{}});
 		CHECK_THAT(m, Matrix3Matcher(m2));
 	}
 
@@ -487,7 +487,7 @@ TEST_CASE("matrix3::rotation_around_z(radian)", "[working][unittest][matrix3]")
 		CHECK_THAT(v1, Vector3Matcher(vE));
 
 		const matrix3 m2 = matrix3::rotation(
-		    quaternion{direction::posZ(), static_pi_fraction<1, 2>{}});
+		    quaternion{direction3::posZ(), static_pi_fraction<1, 2>{}});
 		const vector3 v2 = m2 * v0;
 		CHECK_THAT(v2, Vector3Matcher(vE));
 
@@ -525,7 +525,7 @@ TEST_CASE("matrix3::rotation_around_z(complex)",
 		CHECK(std::abs(v1.z) == almost_0);
 
 		matrix3 m2 = matrix3::rotation(
-		    quaternion{direction::posZ(), static_pi_fraction<1, 2>{}});
+		    quaternion{direction3::posZ(), static_pi_fraction<1, 2>{}});
 		REQUIRE_THAT(m, Matrix3Matcher(m2));
 	}
 
@@ -613,28 +613,6 @@ TEST_CASE("matrix3::column(int)", "[working][unittest][matrix3]")
 		REQUIRE(m.column(i).row(2) == -3.0f);
 		REQUIRE(m.column(i) == vector3(-1.0f, -2.0f, -3.0f));
 	}
-}
-
-TEST_CASE("matrix3::diag(int)", "[working][unittest][matrix3]")
-{
-	vector3 v0{1.0f, 2.0f, 3.0f};
-	vector3 v1{5.0f, 6.0f, 7.0f};
-	vector3 v2{9.0f, 10.0f, 11.0f};
-
-	matrix3 m = matrix3::columns(v0, v1, v2);
-
-	REQUIRE(v0.x == m.diag(0));
-	REQUIRE(v1.y == m.diag(1));
-	REQUIRE(v2.z == m.diag(2));
-
-	m.diag(0) = -1.0f;
-	m.diag(1) = -2.0f;
-	m.diag(2) = -3.0f;
-
-	REQUIRE(m.diag(0) == -1.0f);
-	REQUIRE(m.diag(1) == -2.0f);
-	REQUIRE(m.diag(2) == -3.0f);
-	REQUIRE(m.diag() == vector3(-1.0f, -2.0f, -3.0f));
 }
 
 TEST_CASE("matrix3::diag()", "[working][unittest][matrix3]")

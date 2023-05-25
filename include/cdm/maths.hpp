@@ -1,5 +1,5 @@
-/* cdm_ranges v0.1.0
-   C++20 ranges utility
+/* cdm_maths v3.0.0
+   C++20 geometric library
    https://github.com/WubiCookie/cdm
    no warranty implied; use at your own risk
 
@@ -25,21 +25,30 @@ CREDITS
 Written by Charles Seizilles de Mazancourt
 */
 
-#ifndef CDM_RANGES_HPP
-#define CDM_RANGES_HPP 1
+#ifndef CDM_MATHS_HPP
+#define CDM_MATHS_HPP 1
 
-#include <ranges>
+#ifdef min
+#undef min
+#endif
+#ifdef max
+#undef max
+#endif
+#ifdef near
+#undef near
+#endif
+#ifdef far
+#undef far
+#endif
 
 namespace cdm
 {
-namespace ranges
-{
-template <std::ranges::contiguous_range R>
-size_t raw_size(const R& r)
-{
-	return sizeof(*std::ranges::cdata(r)) * std::ranges::size(r);
-}
-}  // namespace ranges
+constexpr uint64_t VERSION_MAJOR = 3;
+constexpr uint64_t VERSION_MINOR = 0;
+constexpr uint64_t VERSION_PATCH = 0;
 }  // namespace cdm
 
-#endif  // CDM_RANGES_HPP
+#include <cdm/decl/maths.hpp>
+#include <cdm/impl/maths.hpp>
+
+#endif  // CDM_MATHS_HPP
