@@ -279,6 +279,18 @@ constexpr quaternion_T<T> quaternion_T<T>::get_clamped(
 }
 
 template <typename T>
+euler_angles_T<T> quaternion_T<T>::to_euler_angles() const
+{
+	return cdm::euler_angles_T<T>{
+	    cdm::radian_T<T>(
+	        std::atan2(T(2) * (w * x + y * z), T(1) - T(2) * (x * x + y * y))),
+	    cdm::radian_T<T>(cdm::asin(T(2) * (w * y - z * x))),
+	    cdm::radian_T<T>(
+	        std::atan2(T(2) * (w * z + x * y), T(1) - T(2) * (y * y + z * z))),
+	};
+}
+
+template <typename T>
 constexpr quaternion_T<T> quaternion_T<T>::operator+(quaternion_T<T> q) const
 {
 	return {

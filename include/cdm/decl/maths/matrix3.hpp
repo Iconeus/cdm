@@ -136,6 +136,8 @@ public:
 	constexpr T determinant() const;
 	constexpr bool is_orthogonal() const;
 
+	euler_angles_T<T> to_euler_angles() const;
+
 	constexpr vector3_column_proxy<T> column(int i);
 	constexpr vector3_column_proxy<const T> column(int i) const;
 	constexpr vector3_row_proxy<T> row(int i);

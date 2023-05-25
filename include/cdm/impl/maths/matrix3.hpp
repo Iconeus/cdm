@@ -423,6 +423,13 @@ constexpr bool matrix3_T<T>::is_orthogonal() const
 }
 
 template <typename T>
+euler_angles_T<T> matrix3_T<T>::to_euler_angles() const
+{
+	const auto q = cdm::quaternion_T<T>::from_rotation_matrix(*this);
+	return q.to_euler_angles();
+}
+
+template <typename T>
 constexpr vector3_column_proxy<T> matrix3_T<T>::column(int i)
 {
 	return std::array{

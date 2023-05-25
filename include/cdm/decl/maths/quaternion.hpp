@@ -76,6 +76,8 @@ struct quaternion_T
 	constexpr quaternion_T get_clamped(quaternion_T min,
 	                                   quaternion_T max) const;
 
+	euler_angles_T<T> to_euler_angles() const;
+
 	constexpr quaternion_T operator+(quaternion_T q) const;
 	constexpr quaternion_T operator-(quaternion_T q) const;
 
