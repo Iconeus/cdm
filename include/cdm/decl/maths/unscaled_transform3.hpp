@@ -33,35 +33,35 @@ Written by Charles Seizilles de Mazancourt
 namespace cdm
 {
 template <typename T>
-struct unscaled_Transform3_T
+struct unscaled_transform3_T
 {
 	vector3_T<T> position;
 	quaternion_T<T> rotation;
 
-	constexpr unscaled_Transform3_T& translate_absolute(vector3_T<T> t);
-	constexpr unscaled_Transform3_T& translate_relative(vector3_T<T> t);
-	constexpr unscaled_Transform3_T& rotate(quaternion_T<T> r);
+	constexpr unscaled_transform3_T& translate_absolute(vector3_T<T> t);
+	constexpr unscaled_transform3_T& translate_relative(vector3_T<T> t);
+	constexpr unscaled_transform3_T& rotate(quaternion_T<T> r);
 
-	unscaled_Transform3_T& inverse();
-	unscaled_Transform3_T get_inversed() const;
+	unscaled_transform3_T& inverse();
+	unscaled_transform3_T get_inversed() const;
 
 	matrix4_T<T> to_matrix4() const;
 
-	constexpr unscaled_Transform3_T operator*(
-	    const unscaled_Transform3_T& t) const;
+	constexpr unscaled_transform3_T operator*(
+	    const unscaled_transform3_T& t) const;
 	constexpr vector3_T<T> operator*(vector3_T<T> v) const;
 	constexpr quaternion_T<T> operator*(quaternion_T<T> q) const;
 
-	static constexpr unscaled_Transform3_T identity();
+	static constexpr unscaled_transform3_T identity();
 
 	using underlying_type = T;
 };
 
 template <typename T>
-unscaled_Transform3_T<T> inverse(unscaled_Transform3_T<T> tr);
+unscaled_transform3_T<T> inverse(unscaled_transform3_T<T> tr);
 
-using unscaled_Transform3 = unscaled_Transform3_T<float>;
-using unscaled_Transform3d = unscaled_Transform3_T<double>;
+using unscaled_transform3 = unscaled_transform3_T<float>;
+using unscaled_transform3d = unscaled_transform3_T<double>;
 }  // namespace cdm
 
 #endif  // CDM_MATHS_DECL_UNSCALED_TRANSFORM3_HPP

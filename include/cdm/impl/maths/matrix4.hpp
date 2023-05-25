@@ -139,7 +139,7 @@ constexpr matrix4_T<T>::matrix4_T(const uniform_transform3_T<T>& t)
 }
 
 template <typename T>
-constexpr matrix4_T<T>::matrix4_T(const unscaled_Transform3_T<T>& t)
+constexpr matrix4_T<T>::matrix4_T(const unscaled_transform3_T<T>& t)
     : matrix4_T(t.to_matrix4())
 {
 }
@@ -859,7 +859,7 @@ constexpr matrix4_T<T> operator*(const matrix4_T<T>& m,
 }
 
 template <typename T>
-constexpr matrix4_T<T> operator*(const unscaled_Transform3_T<T>& t,
+constexpr matrix4_T<T> operator*(const unscaled_transform3_T<T>& t,
                                  const matrix4_T<T>& m)
 {
 	return t.to_matrix4() * m;
@@ -867,7 +867,7 @@ constexpr matrix4_T<T> operator*(const unscaled_Transform3_T<T>& t,
 
 template <typename T>
 constexpr matrix4_T<T> operator*(const matrix4_T<T>& m,
-                                 const unscaled_Transform3_T<T>& t)
+                                 const unscaled_transform3_T<T>& t)
 {
 	return m * t.to_matrix4();
 }

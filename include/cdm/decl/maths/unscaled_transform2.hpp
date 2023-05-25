@@ -33,21 +33,21 @@ Written by Charles Seizilles de Mazancourt
 namespace cdm
 {
 template <typename T>
-struct unscaled_Transform2_T
+struct unscaled_transform2_T
 {
 	vector2_T<T> position;
 	radian_T<T> rotation;
 
-	unscaled_Transform2_T operator*(unscaled_Transform2_T t) const;
+	unscaled_transform2_T operator*(unscaled_transform2_T t) const;
 	vector2_T<T> operator*(vector2_T<T> v) const;
 
-	static constexpr unscaled_Transform2_T identity();
+	static constexpr unscaled_transform2_T identity();
 
 	using underlying_type = T;
 };
 
-using unscaled_Transform2 = unscaled_Transform2_T<float>;
-using unscaled_Transform2d = unscaled_Transform2_T<double>;
+using unscaled_transform2 = unscaled_transform2_T<float>;
+using unscaled_transform2d = unscaled_transform2_T<double>;
 }  // namespace cdm
 
 #endif  // CDM_MATHS_DECL_UNSCALED_TRANSFORM2_HPP

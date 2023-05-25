@@ -63,8 +63,8 @@ Written by Charles Seizilles de Mazancourt
 #include <cdm/impl/maths/uniform_transform2.hpp>
 #include <cdm/impl/maths/uniform_transform3.hpp>
 #include <cdm/impl/maths/unnormalized_value.hpp>
-#include <cdm/impl/maths/unscaled_Transform2.hpp>
-#include <cdm/impl/maths/unscaled_Transform3.hpp>
+#include <cdm/impl/maths/unscaled_transform2.hpp>
+#include <cdm/impl/maths/unscaled_transform3.hpp>
 #include <cdm/impl/maths/value_domain.hpp>
 #include <cdm/impl/maths/vector.hpp>
 #include <cdm/impl/maths/vector2.hpp>

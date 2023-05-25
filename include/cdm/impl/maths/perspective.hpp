@@ -32,7 +32,7 @@ Written by Charles Seizilles de Mazancourt
 #include <cdm/decl/maths/perspective.hpp>
 #include <cdm/decl/maths/radian.hpp>
 #include <cdm/decl/maths/static_pi_fraction.hpp>
-#include <cdm/decl/maths/unscaled_Transform3.hpp>
+#include <cdm/decl/maths/unscaled_transform3.hpp>
 
 namespace cdm
 {
@@ -301,7 +301,7 @@ constexpr vector4_T<T> operator*(const perspective_T<T>& p,
 }
 
 template <typename T>
-constexpr matrix4_T<T> operator*(const unscaled_Transform3_T<T>& t,
+constexpr matrix4_T<T> operator*(const unscaled_transform3_T<T>& t,
                                  const perspective_T<T>& p)
 {
 	const T a = p.m_focalLength * p.m_invRatio;
@@ -345,7 +345,7 @@ constexpr matrix4_T<T> operator*(const unscaled_Transform3_T<T>& t,
 
 template <typename T>
 constexpr matrix4_T<T> operator*(const perspective_T<T>& p,
-                                 const unscaled_Transform3_T<T>& t)
+                                 const unscaled_transform3_T<T>& t)
 {
 	const T a = p.m_focalLength * p.m_invRatio;
 	const T b = p.m_focalLength;

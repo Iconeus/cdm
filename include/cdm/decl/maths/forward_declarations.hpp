@@ -149,10 +149,10 @@ template <typename T>
 struct uniform_transform3_T;
 
 template <typename T>
-struct unscaled_Transform2_T;
+struct unscaled_transform2_T;
 
 template <typename T>
-struct unscaled_Transform3_T;
+struct unscaled_transform3_T;
 
 template <arithmetic T>
 class value_domain_T;

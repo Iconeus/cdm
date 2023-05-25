@@ -29,30 +29,30 @@ Written by Charles Seizilles de Mazancourt
 #define CDM_MATHS_IMPL_UNSCALED_TRANSFORM2_HPP 1
 
 #include <cdm/decl/maths/radian.hpp>
-#include <cdm/decl/maths/unscaled_Transform2.hpp>
+#include <cdm/decl/maths/unscaled_transform2.hpp>
 #include <cdm/decl/maths/vector2.hpp>
 
 namespace cdm
 {
 template <typename T>
-inline unscaled_Transform2_T<T> unscaled_Transform2_T<T>::operator*(
-    unscaled_Transform2_T<T> t) const
+inline unscaled_transform2_T<T> unscaled_transform2_T<T>::operator*(
+    unscaled_transform2_T<T> t) const
 {
-	unscaled_Transform2_T<T> res;
+	unscaled_transform2_T<T> res;
 	matrix2_T<T> r = matrix2_T<T>::rotation(rotation);
 	res.position = r * t.position + position;
 	res.rotation = rotation + t.rotation;
 	return res;
 }
 template <typename T>
-inline vector2_T<T> unscaled_Transform2_T<T>::operator*(vector2_T<T> v) const
+inline vector2_T<T> unscaled_transform2_T<T>::operator*(vector2_T<T> v) const
 {
 	matrix2_T<T> r = matrix2_T<T>::rotation(rotation);
 	return r * v + position;
 }
 
 template <typename T>
-constexpr unscaled_Transform2_T<T> unscaled_Transform2_T<T>::identity()
+constexpr unscaled_transform2_T<T> unscaled_transform2_T<T>::identity()
 {
 	return {
 	    .position = vector2_T<T>::zero(),

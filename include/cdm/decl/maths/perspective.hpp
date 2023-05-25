@@ -87,11 +87,11 @@ public:
 	friend constexpr vector4_T<U> operator*(const perspective_T<U>& p,
 	                                        const vector4_T<U>& v);
 	template <typename U>
-	friend constexpr matrix4_T<U> operator*(const unscaled_Transform3_T<U>& t,
+	friend constexpr matrix4_T<U> operator*(const unscaled_transform3_T<U>& t,
 	                                        const perspective_T<U>& p);
 	template <typename U>
 	friend constexpr matrix4_T<U> operator*(const perspective_T<U>& p,
-	                                        const unscaled_Transform3_T<U>& t);
+	                                        const unscaled_transform3_T<U>& t);
 
 	using underlying_type = T;
 };

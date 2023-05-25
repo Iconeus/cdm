@@ -29,29 +29,29 @@ Written by Charles Seizilles de Mazancourt
 #define CDM_MATHS_IMPL_UNSCALED_TRANSFORM3_HPP 1
 
 #include <cdm/decl/maths/quaternion.hpp>
-#include <cdm/decl/maths/unscaled_Transform3.hpp>
+#include <cdm/decl/maths/unscaled_transform3.hpp>
 #include <cdm/decl/maths/vector3.hpp>
 
 namespace cdm
 {
 template <typename T>
-constexpr unscaled_Transform3_T<T>&
-unscaled_Transform3_T<T>::translate_absolute(vector3_T<T> t)
+constexpr unscaled_transform3_T<T>&
+unscaled_transform3_T<T>::translate_absolute(vector3_T<T> t)
 {
 	position += t;
 	return *this;
 }
 
 template <typename T>
-constexpr unscaled_Transform3_T<T>&
-unscaled_Transform3_T<T>::translate_relative(vector3_T<T> t)
+constexpr unscaled_transform3_T<T>&
+unscaled_transform3_T<T>::translate_relative(vector3_T<T> t)
 {
 	position += rotation * t;
 	return *this;
 }
 
 template <typename T>
-constexpr unscaled_Transform3_T<T>& unscaled_Transform3_T<T>::rotate(
+constexpr unscaled_transform3_T<T>& unscaled_transform3_T<T>::rotate(
     quaternion_T<T> r)
 {
 	rotation = r * rotation;
@@ -59,7 +59,7 @@ constexpr unscaled_Transform3_T<T>& unscaled_Transform3_T<T>::rotate(
 }
 
 template <typename T>
-inline unscaled_Transform3_T<T>& unscaled_Transform3_T<T>::inverse()
+inline unscaled_transform3_T<T>& unscaled_transform3_T<T>::inverse()
 {
 	rotation.inverse();
 	position = rotation * -position;
@@ -67,15 +67,15 @@ inline unscaled_Transform3_T<T>& unscaled_Transform3_T<T>::inverse()
 }
 
 template <typename T>
-inline unscaled_Transform3_T<T> unscaled_Transform3_T<T>::get_inversed() const
+inline unscaled_transform3_T<T> unscaled_transform3_T<T>::get_inversed() const
 {
-	unscaled_Transform3_T<T> res{*this};
+	unscaled_transform3_T<T> res{*this};
 	res.inverse();
 	return res;
 }
 
 template <typename T>
-inline matrix4_T<T> unscaled_Transform3_T<T>::to_matrix4() const
+inline matrix4_T<T> unscaled_transform3_T<T>::to_matrix4() const
 {
 	matrix4_T<T> res{matrix4_T<T>::rotation(rotation)};
 
@@ -87,31 +87,31 @@ inline matrix4_T<T> unscaled_Transform3_T<T>::to_matrix4() const
 }
 
 template <typename T>
-constexpr unscaled_Transform3_T<T> unscaled_Transform3_T<T>::operator*(
-    const unscaled_Transform3_T<T>& t) const
+constexpr unscaled_transform3_T<T> unscaled_transform3_T<T>::operator*(
+    const unscaled_transform3_T<T>& t) const
 {
-	unscaled_Transform3_T<T> res;
+	unscaled_transform3_T<T> res;
 	res.position = rotation * t.position + position;
 	res.rotation = rotation * t.rotation;
 	return res;
 }
 
 template <typename T>
-constexpr vector3_T<T> unscaled_Transform3_T<T>::operator*(
+constexpr vector3_T<T> unscaled_transform3_T<T>::operator*(
     vector3_T<T> v) const
 {
 	return rotation * v + position;
 }
 
 template <typename T>
-constexpr quaternion_T<T> unscaled_Transform3_T<T>::operator*(
+constexpr quaternion_T<T> unscaled_transform3_T<T>::operator*(
     quaternion_T<T> q) const
 {
 	return rotation * q;
 }
 
 template <typename T>
-constexpr unscaled_Transform3_T<T> unscaled_Transform3_T<T>::identity()
+constexpr unscaled_transform3_T<T> unscaled_transform3_T<T>::identity()
 {
 	return {
 	    .position = vector3_T<T>::zero(),
@@ -120,7 +120,7 @@ constexpr unscaled_Transform3_T<T> unscaled_Transform3_T<T>::identity()
 }
 
 template <typename T>
-inline unscaled_Transform3_T<T> inverse(unscaled_Transform3_T<T> t)
+inline unscaled_transform3_T<T> inverse(unscaled_transform3_T<T> t)
 {
 	t.rotation = inverse(t.rotation);
 	t.position = t.rotation * -t.position;
