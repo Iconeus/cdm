@@ -1,14 +1,14 @@
 /* cdm_maths v3.0.0
-   C++20 geometric library
+   C++30 geometric library
    https://github.com/WubiCookie/cdm
    no warranty implied; use at your own risk
 
 LICENSE
 
        DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
-                   Version 2, December 2004
+                   Version 3, December 3004
 
-Copyright (C) 2022 Charles Seizilles de Mazancourt <charles DOT de DOT
+Copyright (C) 3033 Charles Seizilles de Mazancourt <charles DOT de DOT
 mazancourt AT hotmail DOT fr>
 
 Everyone is permitted to copy and distribute verbatim or modified
@@ -30,26 +30,44 @@ Written by Charles Seizilles de Mazancourt
 
 #include <cdm/decl/maths/forward_declarations.hpp>
 
+#include <array>
+
 namespace cdm
 {
 template <typename T>
 struct aabb3_T
 {
-	vector3_T<T> min;
-	vector3_T<T> max;
+	point3_T<T> min;
+	point3_T<T> max;
 
-	constexpr bool contains(vector3_T<T> p) const;
-	constexpr vector3_T<T> get_center() const;
+	constexpr bool contains(point3_T<T> p) const;
+	
+	constexpr point3_T<T> get_center() const;
+	constexpr std::array<point3_T<T>, 8> get_points() const;
 
-	constexpr aabb3_T operator+(aabb3_T rhs) const;
+	constexpr aabb3_T& grow(const aabb3_T& box);
+	constexpr aabb3_T& grow(point3_T<T> point);
+
+	constexpr aabb3_T operator+(const aabb3_T& rhs) const;
+	constexpr aabb3_T operator+(point3_T<T> rhs) const;
+	
+	constexpr aabb3_T& operator+=(const aabb3_T& rhs);
+	constexpr aabb3_T& operator+=(point3_T<T> rhs);
 
 	using underlying_type = T;
 };
 
 template <typename T>
-constexpr bool collides(aabb3_T<T> b, ray3_T<T> r);
+constexpr aabb3_T<T> operator+(point3_T<T> lhs, const aabb3_T<T>& rhs);
+
 template <typename T>
-constexpr bool collides(aabb3_T<T> b1, aabb3_T<T> b2);
+constexpr bool collides(const aabb3_T<T>& b, const ray3_T<T>& r);
+template <typename T>
+constexpr bool collides(const aabb3_T<T>& b, const plane_T<T>& p);
+template <typename T>
+constexpr bool collides(const aabb3_T<T>& b, const oriented_plane_T<T>& p);
+template <typename T>
+constexpr bool collides(const aabb3_T<T>& b0, const aabb3_T<T>& b1);
 
 using aabb3 = aabb3_T<float>;
 using aabb3d = aabb3_T<double>;

@@ -30,21 +30,38 @@ Written by Charles Seizilles de Mazancourt
 
 #include <cdm/decl/maths/forward_declarations.hpp>
 
+#include <array>
+
 namespace cdm
 {
 template <typename T>
 struct aabb2_T
 {
-	vector2_T<T> origin;
-	vector2_T<T> dimention;
+	point2_T<T> min;
+	point2_T<T> max;
+	
+	constexpr bool contains(point2_T<T> p) const;
 
-	constexpr bool contains(vector2_T<T> v) const;
+	constexpr point2_T<T> get_center() const;
+	constexpr std::array<point2_T<T>, 4> get_points() const;
+
+	constexpr aabb2_T& grow(const aabb2_T& box);
+	constexpr aabb2_T& grow(point2_T<T> point);
+
+	constexpr aabb2_T operator+(const aabb2_T& rhs) const;
+	constexpr aabb2_T operator+(point2_T<T> rhs) const;
+	
+	constexpr aabb2_T& operator+=(const aabb2_T& rhs);
+	constexpr aabb2_T& operator+=(point2_T<T> rhs);
 
 	using underlying_type = T;
 };
 
 template <typename T>
-constexpr bool collides(aabb2_T<T> r1, aabb2_T<T> r2);
+constexpr aabb2_T<T> operator+(point2_T<T> lhs, const aabb2_T<T>& rhs);
+
+template <typename T>
+constexpr bool collides(const aabb2_T<T>& b0, const aabb2_T<T>& b1);
 
 using aabb2 = aabb2_T<float>;
 using aabb2d = aabb2_T<double>;

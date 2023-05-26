@@ -29,24 +29,91 @@ Written by Charles Seizilles de Mazancourt
 #define CDM_MATHS_IMPL_AABB2_HPP 1
 
 #include <cdm/decl/maths/aabb2.hpp>
-#include <cdm/decl/maths/vector2.hpp>
+#include <cdm/decl/maths/point2.hpp>
 
 namespace cdm
 {
 template <typename T>
-constexpr bool aabb2_T<T>::contains(vector2_T<T> v) const
+constexpr bool aabb2_T<T>::contains(point2_T<T> v) const
 {
-	return (v.x >= origin.x) && (v.x <= origin.x + dimention.x) &&
-	       (v.y >= origin.y) && (v.y <= origin.y + dimention.y);
+	return p.x >= min.x && p.x <= max.x &&  //
+	       p.y >= min.y && p.y <= max.y;    //
 }
 
 template <typename T>
-constexpr bool collides(aabb2_T<T> r1, aabb2_T<T> r2)
+constexpr point2_T<T> aabb2_T<T>::get_center() const
 {
-	return collides(r1, r2.origin) ||
-	       collides(r1, r2.origin + vector2_T<T>(r2.dimention.x, T(0))) ||
-	       collides(r1, r2.origin + vector2_T<T>(T(0), r2.dimention.y)) ||
-	       collides(r1, r2.origin + r2.dimention);
+	return (max + min) / T(2);
+}
+
+template <typename T>
+constexpr std::array<point2_T<T>, 4> aabb2_T<T>::get_points() const
+{
+	return std::array<point2_T<T>, 4>{
+	    point2_T<T>{box.min.x, box.min.y},
+	    point2_T<T>{box.max.x, box.min.y},
+	    point2_T<T>{box.min.x, box.max.y},
+	    point2_T<T>{box.max.x, box.max.y},
+	};
+}
+
+template <typename T>
+constexpr aabb2_T<T>& aabb2_T<T>::grow(const aabb2_T<T>& box)
+{
+	grow(box.min);
+	grow(box.max);
+	return *this;
+}
+
+template <typename T>
+constexpr aabb2_T<T>& aabb2_T<T>::grow(point2_T<T> point)
+{
+	box.min = cdm::element_wise_min(box.min, point);
+	box.max = cdm::element_wise_max(box.max, point);
+	return *this;
+}
+
+template <typename T>
+constexpr aabb2_T<T> aabb2_T<T>::operator+(const aabb2_T<T>& rhs) const
+{
+	aabb2_T<T> res = *this;
+	res.grow(rhs);
+	return res;
+}
+
+template <typename T>
+constexpr aabb2_T<T> aabb2_T<T>::operator+(point2_T<T> rhs) const
+{
+	aabb2_T<T> res = *this;
+	res.grow(rhs);
+	return res;
+}
+
+template <typename T>
+constexpr aabb2_T<T>& aabb2_T<T>::operator+=(const aabb2_T<T>& rhs)
+{
+	return grow(rhs);
+}
+
+template <typename T>
+constexpr aabb2_T<T>& aabb2_T<T>::operator+=(point2_T<T> rhs)
+{
+	return grow(rhs);
+}
+
+template <typename T>
+constexpr aabb2_T<T> operator+(point2_T<T> lhs, const aabb2_T<T>& rhs)
+{
+	return rhs + lhs;
+}
+
+template <typename T>
+constexpr bool collides(const aabb2_T<T>& b0, const aabb2_T<T>& b1)
+{
+	return collides(b0, b1.origin) ||
+	       collides(b0, b1.origin + vector2_T<T>(b1.dimension.x, T(0))) ||
+	       collides(b0, b1.origin + vector2_T<T>(T(0), b1.dimension.y)) ||
+	       collides(b0, b1.origin + b1.dimension);
 }
 }  // namespace cdm
 

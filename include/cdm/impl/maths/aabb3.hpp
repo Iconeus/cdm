@@ -34,34 +34,86 @@ Written by Charles Seizilles de Mazancourt
 namespace cdm
 {
 template <typename T>
-constexpr bool aabb3_T<T>::contains(vector3_T<T> p) const
+constexpr bool aabb3_T<T>::contains(point3_T<T> p) const
 {
-	return p.x >= min.x && p.x <= max.x && p.y >= min.y && p.y <= max.y &&
-	       p.z >= min.z && p.z <= max.z;
+	return p.x >= min.x && p.x <= max.x &&  //
+	       p.y >= min.y && p.y <= max.y &&  //
+	       p.z >= min.z && p.z <= max.z;    //
 }
 
 template <typename T>
-constexpr vector3_T<T> aabb3_T<T>::get_center() const
+constexpr point3_T<T> aabb3_T<T>::get_center() const
 {
 	return (max + min) / T(2);
 }
 
 template <typename T>
-constexpr aabb3_T<T> aabb3_T<T>::operator+(aabb3_T<T> rhs) const
+constexpr std::array<point3_T<T>, 8> aabb3_T<T>::get_points() const
 {
-	aabb3_T<T> res;
-	res.min.x = std::min(min.x, rhs.min.x);
-	res.min.y = std::min(min.y, rhs.min.y);
-	res.min.z = std::min(min.z, rhs.min.z);
-	res.max.x = std::max(max.x, rhs.max.x);
-	res.max.y = std::max(max.y, rhs.max.y);
-	res.max.z = std::max(max.z, rhs.max.z);
+	return std::array<point3_T<T>, 8>{
+	    point3_T<T>{box.min.x, box.min.y, box.min.z},
+	    point3_T<T>{box.max.x, box.min.y, box.min.z},
+	    point3_T<T>{box.min.x, box.max.y, box.min.z},
+	    point3_T<T>{box.max.x, box.max.y, box.min.z},
+	    point3_T<T>{box.min.x, box.min.y, box.max.z},
+	    point3_T<T>{box.max.x, box.min.y, box.max.z},
+	    point3_T<T>{box.min.x, box.max.y, box.max.z},
+	    point3_T<T>{box.max.x, box.max.y, box.max.z},
+	};
+}
 
+template <typename T>
+constexpr aabb3_T<T>& aabb3_T<T>::grow(const aabb3_T<T>& box)
+{
+	grow(box.min);
+	grow(box.max);
+	return *this;
+}
+
+template <typename T>
+constexpr aabb3_T<T>& aabb3_T<T>::grow(point3_T<T> point)
+{
+	box.min = cdm::element_wise_min(box.min, point);
+	box.max = cdm::element_wise_max(box.max, point);
+	return *this;
+}
+
+template <typename T>
+constexpr aabb3_T<T> aabb3_T<T>::operator+(const aabb3_T<T>& rhs) const
+{
+	aabb3_T<T> res = *this;
+	res.grow(rhs);
 	return res;
 }
 
 template <typename T>
-constexpr bool collides(aabb3_T<T> b, ray3_T<T> r)
+constexpr aabb3_T<T> aabb3_T<T>::operator+(point3_T<T> rhs) const
+{
+	aabb3_T<T> res = *this;
+	res.grow(rhs);
+	return res;
+}
+
+template <typename T>
+constexpr aabb3_T<T>& aabb3_T<T>::operator+=(const aabb3_T<T>& rhs)
+{
+	return grow(rhs);
+}
+
+template <typename T>
+constexpr aabb3_T<T>& aabb3_T<T>::operator+=(point3_T<T> rhs)
+{
+	return grow(rhs);
+}
+
+template <typename T>
+constexpr aabb3_T<T> operator+(point3_T<T> lhs, const aabb3_T<T>& rhs)
+{
+	return rhs + lhs;
+}
+
+template <typename T>
+constexpr bool collides(const aabb3_T<T>& b, const ray3_T<T>& r)
 {
 	constexpr vector3_T<T> inv{
 	    T(1) / r.direction->x,  //
@@ -91,38 +143,62 @@ constexpr bool collides(aabb3_T<T> b, ray3_T<T> r)
 }
 
 template <typename T>
-constexpr bool collides(aabb3_T<T> b1, aabb3_T<T> b2)
+constexpr bool collides(const aabb3_T<T>& b, const plane_T<T>& p)
 {
-	if (b1.contains(b2.min))
-		return true;
-	if (b1.contains(b2.max))
-		return true;
-	if (b2.contains(b1.min))
-		return true;
-	if (b2.contains(b1.max))
-		return true;
+	int evals = 0;
+	for (const auto& point : b.get_points())
+	{
+		const T eval = p.evaluate(point);
+		evals += -int(eval < T(0)) + int(eval > T(0));
+	}
 
-	std::array<vector3_T<T>, 6> otherPoints;
-	otherPoints[0] = {b1.min.x, b1.min.y, b1.max.z};
-	otherPoints[1] = {b1.min.x, b1.max.y, b1.min.z};
-	otherPoints[2] = {b1.max.x, b1.min.y, b1.min.z};
-	otherPoints[3] = {b1.min.x, b1.max.y, b1.max.z};
-	otherPoints[4] = {b1.max.x, b1.min.y, b1.max.z};
-	otherPoints[5] = {b1.max.x, b1.max.y, b1.min.z};
+	return std::abs(evals) != 8;
+}
 
-	for (auto& p : otherPoints)
-		if (b2.contains(p))
+template <typename T>
+constexpr bool collides(const aabb3_T<T>& b, const oriented_plane_T<T>& p)
+{
+	int evals = 0;
+	for (const auto& point : b.get_points())
+	{
+		const T eval = p.evaluate(point);
+		evals += -int(eval < T(0)) + int(eval > T(0));
+	}
+
+	return std::abs(evals) != 8;
+}
+
+template <typename T>
+constexpr bool collides(const aabb3_T<T>& b0, const aabb3_T<T>& b1)
+{
+	/// TODO this is wrong!
+	///
+	///         +--------------+
+	///         |              |
+	///         |              |
+	///     +---|--------------|---+
+	///     |   |              |   |
+	///     |   |              |   |
+	///     |   |              |   |
+	///     |   |              |   |
+	///     +---|--------------|---+
+	///         |              |
+	///         |              |
+	///         +--------------+
+	///
+	/// ^ this return false
+	///
+
+	std::array<point3_T<T>, 8> points = b0.get_points();
+
+	for (auto& p : points)
+		if (b1.contains(p))
 			return true;
 
-	otherPoints[0] = {b2.min.x, b2.min.y, b2.max.z};
-	otherPoints[1] = {b2.min.x, b2.max.y, b2.min.z};
-	otherPoints[2] = {b2.max.x, b2.min.y, b2.min.z};
-	otherPoints[3] = {b2.min.x, b2.max.y, b2.max.z};
-	otherPoints[4] = {b2.max.x, b2.min.y, b2.max.z};
-	otherPoints[5] = {b2.max.x, b2.max.y, b2.min.z};
+	points = b1.get_points();
 
-	for (auto& p : otherPoints)
-		if (b1.contains(p))
+	for (auto& p : points)
+		if (b0.contains(p))
 			return true;
 
 	return false;

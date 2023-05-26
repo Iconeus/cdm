@@ -51,6 +51,7 @@ Written by Charles Seizilles de Mazancourt
 #include <cdm/decl/maths/perspective.hpp>
 #include <cdm/decl/maths/pi_fraction.hpp>
 #include <cdm/decl/maths/plane.hpp>
+#include <cdm/decl/maths/point2.hpp>
 #include <cdm/decl/maths/point3.hpp>
 #include <cdm/decl/maths/quaternion.hpp>
 #include <cdm/decl/maths/radian.hpp>

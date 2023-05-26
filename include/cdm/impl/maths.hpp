@@ -50,6 +50,7 @@ Written by Charles Seizilles de Mazancourt
 #include <cdm/impl/maths/perspective.hpp>
 #include <cdm/impl/maths/pi_fraction.hpp>
 #include <cdm/impl/maths/plane.hpp>
+#include <cdm/impl/maths/point2.hpp>
 #include <cdm/impl/maths/point3.hpp>
 #include <cdm/impl/maths/quaternion.hpp>
 #include <cdm/impl/maths/radian.hpp>
