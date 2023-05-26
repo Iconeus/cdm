@@ -63,6 +63,14 @@ constexpr std::array<point3_T<T>, 8> aabb3_T<T>::get_points() const
 }
 
 template <typename T>
+constexpr point3_T<T> aabb3_T<T>::clamp(point3_T<T> p) const
+{
+	p = element_wise_max(p, min);
+	p = element_wise_min(p, max);
+	return p;
+}
+
+template <typename T>
 constexpr aabb3_T<T>& aabb3_T<T>::grow(const aabb3_T<T>& box)
 {
 	grow(box.min);
@@ -104,6 +112,23 @@ template <typename T>
 constexpr aabb3_T<T>& aabb3_T<T>::operator+=(point3_T<T> rhs)
 {
 	return grow(rhs);
+}
+
+template <typename T>
+constexpr aabb3_T<T> aabb3_T<T>::infinity()
+{
+	return aabb3_T<T>{
+	    .min{
+	        std::numeric_limits<T>::infinity(),
+	        std::numeric_limits<T>::infinity(),
+	        std::numeric_limits<T>::infinity(),
+	    },
+	    .max{
+	        -std::numeric_limits<T>::infinity(),
+	        -std::numeric_limits<T>::infinity(),
+	        -std::numeric_limits<T>::infinity(),
+	    },
+	};
 }
 
 template <typename T>

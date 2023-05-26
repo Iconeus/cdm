@@ -35,7 +35,7 @@ namespace cdm
 template <typename T>
 struct ray3_T
 {
-	vector3_T<T> origin;
+	point3_T<T> origin;
 	direction3_T<T> direction;
 
 	using underlying_type = T;

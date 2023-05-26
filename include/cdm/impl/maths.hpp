@@ -34,6 +34,7 @@ Written by Charles Seizilles de Mazancourt
 #include <cdm/impl/maths/complex.hpp>
 #include <cdm/impl/maths/constants.hpp>
 #include <cdm/impl/maths/degree.hpp>
+#include <cdm/impl/maths/direction2.hpp>
 #include <cdm/impl/maths/direction3.hpp>
 #include <cdm/impl/maths/euler_angles.hpp>
 #include <cdm/impl/maths/forward_declarations.hpp>

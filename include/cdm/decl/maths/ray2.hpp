@@ -30,16 +30,24 @@ Written by Charles Seizilles de Mazancourt
 
 #include <cdm/decl/maths/forward_declarations.hpp>
 
+#include <optional>
+
 namespace cdm
 {
 template <typename T>
 struct ray2_T
 {
-	vector2_T<T> origin;
-	normalized<vector2_T<T>> direction;
+	point2_T<T> origin;
+	direction2_T<T> direction;
 
 	using underlying_type = T;
 };
+
+template <typename T>
+constexpr bool collides(const ray2_T<T>& r, const segment2_T<T>& s);
+
+template <typename T>
+constexpr std::optional<point2_T<T>> intersection(const ray2_T<T>& r, const segment2_T<T>& s);
 
 using ray2 = ray2_T<float>;
 using ray2d = ray2_T<double>;

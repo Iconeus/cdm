@@ -45,6 +45,8 @@ struct aabb2_T
 	constexpr point2_T<T> get_center() const;
 	constexpr std::array<point2_T<T>, 4> get_points() const;
 
+	constexpr point2_T<T> clamp(point2_T<T> p) const;
+
 	constexpr aabb2_T& grow(const aabb2_T& box);
 	constexpr aabb2_T& grow(point2_T<T> point);
 
@@ -53,6 +55,8 @@ struct aabb2_T
 	
 	constexpr aabb2_T& operator+=(const aabb2_T& rhs);
 	constexpr aabb2_T& operator+=(point2_T<T> rhs);
+
+	static constexpr aabb2_T infinity();
 
 	using underlying_type = T;
 };
