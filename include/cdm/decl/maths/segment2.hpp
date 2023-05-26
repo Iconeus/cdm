@@ -39,8 +39,8 @@ namespace cdm
 template <typename T>
 struct segment2_T
 {
-	vector2_T<T> origin;
-	vector2_T<T> end;
+	point2_T<T> origin;
+	point2_T<T> end;
 
 	T length() const;
 	constexpr T length_squared() const;
@@ -53,14 +53,14 @@ struct segment2_T
 template <typename T>
 int collides(const segment2_T<T>& s0,
              const segment2_T<T>& s1,
-             vector2_T<T>& outPoint0,
-             vector2_T<T>& outPoint1,
+             point2_T<T>& outPoint0,
+             point2_T<T>& outPoint1,
              T e = T(epsilon));
 
 template <typename T>
-constexpr std::optional<vector2_T<T>> intersects(segment2_T<T> s0,
-                                                 segment2_T<T> s1,
-                                                 T e = T(epsilon));
+constexpr std::optional<point2_T<T>> intersects(segment2_T<T> s0,
+                                                segment2_T<T> s1,
+                                                T e = T(epsilon));
 
 template <typename T>
 std::ostream& operator<<(std::ostream& os, segment2_T<T> t);

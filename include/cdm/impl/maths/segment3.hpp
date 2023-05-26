@@ -30,8 +30,8 @@ Written by Charles Seizilles de Mazancourt
 
 #include <cdm/decl/maths/misc.hpp>
 #include <cdm/decl/maths/plane.hpp>
+#include <cdm/decl/maths/point3.hpp>
 #include <cdm/decl/maths/segment3.hpp>
-#include <cdm/decl/maths/vector3.hpp>
 
 #include <ostream>
 
@@ -61,7 +61,7 @@ constexpr bool collides(const segment3_T<T>& seg,
 template <typename T>
 constexpr bool collides(const segment3_T<T>& seg,
                         const plane_T<T>& plane,
-                        vector3_T<T>& outPoint,
+                        point3_T<T>& outPoint,
                         T e) noexcept
 {
 	// distances to point
@@ -89,7 +89,7 @@ constexpr bool collides(const segment3_T<T>& seg,
 	normalized_value_T<T> n{v};
 
 	outPoint = element_wise_lerp(seg.origin, seg.end,
-	                             vector3_T<normalized_value_T<T>>(n, n, n));
+	                             point3_T<normalized_value_T<T>>(n, n, n));
 
 	return true;
 }

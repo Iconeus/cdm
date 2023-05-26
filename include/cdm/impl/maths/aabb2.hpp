@@ -34,7 +34,7 @@ Written by Charles Seizilles de Mazancourt
 namespace cdm
 {
 template <typename T>
-constexpr bool aabb2_T<T>::contains(point2_T<T> v) const
+constexpr bool aabb2_T<T>::contains(point2_T<T> p) const
 {
 	return p.x >= min.x && p.x <= max.x &&  //
 	       p.y >= min.y && p.y <= max.y;    //
@@ -50,10 +50,10 @@ template <typename T>
 constexpr std::array<point2_T<T>, 4> aabb2_T<T>::get_points() const
 {
 	return std::array<point2_T<T>, 4>{
-	    point2_T<T>{box.min.x, box.min.y},
-	    point2_T<T>{box.max.x, box.min.y},
-	    point2_T<T>{box.min.x, box.max.y},
-	    point2_T<T>{box.max.x, box.max.y},
+	    point2_T<T>{min.x, min.y},
+	    point2_T<T>{max.x, min.y},
+	    point2_T<T>{min.x, max.y},
+	    point2_T<T>{max.x, max.y},
 	};
 }
 
@@ -76,8 +76,8 @@ constexpr aabb2_T<T>& aabb2_T<T>::grow(const aabb2_T<T>& box)
 template <typename T>
 constexpr aabb2_T<T>& aabb2_T<T>::grow(point2_T<T> point)
 {
-	box.min = cdm::element_wise_min(box.min, point);
-	box.max = cdm::element_wise_max(box.max, point);
+	min = cdm::element_wise_min(min, point);
+	max = cdm::element_wise_max(max, point);
 	return *this;
 }
 

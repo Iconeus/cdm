@@ -41,10 +41,10 @@ struct aabb3_T
 	point3_T<T> max;
 
 	constexpr bool contains(point3_T<T> p) const;
-	
+
 	constexpr point3_T<T> get_center() const;
 	constexpr std::array<point3_T<T>, 8> get_points() const;
-	
+
 	constexpr point3_T<T> clamp(point3_T<T> p) const;
 
 	constexpr aabb3_T& grow(const aabb3_T& box);
@@ -52,10 +52,10 @@ struct aabb3_T
 
 	constexpr aabb3_T operator+(const aabb3_T& rhs) const;
 	constexpr aabb3_T operator+(point3_T<T> rhs) const;
-	
+
 	constexpr aabb3_T& operator+=(const aabb3_T& rhs);
 	constexpr aabb3_T& operator+=(point3_T<T> rhs);
-	
+
 	static constexpr aabb3_T infinity();
 
 	using underlying_type = T;

@@ -37,9 +37,9 @@ namespace cdm
 template <typename T>
 constexpr bool collides(const ray2_T<T>& r, const segment2_T<T>& s)
 {
-	const vector2_T<T> v1 = ray.origin - segment.origin;
-	const vector2_T<T> v2 = segment.end - segment.origin;
-	const vector2_T<T> v3 = {-ray.direction->y, ray.direction->x};
+	const vector2_T<T> v1 = r.origin - s.origin;
+	const vector2_T<T> v2 = s.end - s.origin;
+	const vector2_T<T> v3 = {-r.direction->y, r.direction->x};
 
 	const float V2DotV3 = dot(v2, v3);
 	const float t1 = cross(v2, v1) / V2DotV3;
@@ -50,11 +50,12 @@ constexpr bool collides(const ray2_T<T>& r, const segment2_T<T>& s)
 
 // https://rootllama.wordpress.com/2014/06/20/ray-line-segment-intersection-test-in-2d/
 template <typename T>
-constexpr std::optional<point2_T<T>> intersection(const ray2_T<T>& r, const segment2_T<T>& s)
+constexpr std::optional<point2_T<T>> intersection(const ray2_T<T>& r,
+                                                  const segment2_T<T>& s)
 {
-	const vector2_T<T> v1 = ray.origin - segment.origin;
-	const vector2_T<T> v2 = segment.end - segment.origin;
-	const vector2_T<T> v3 = {-ray.direction->y, ray.direction->x};
+	const vector2_T<T> v1 = r.origin - s.origin;
+	const vector2_T<T> v2 = s.end - s.origin;
+	const vector2_T<T> v3 = {-r.direction->y, r.direction->x};
 
 	const float V2DotV3 = dot(v2, v3);
 	const float t1 = cross(v2, v1) / V2DotV3;

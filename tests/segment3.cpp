@@ -53,9 +53,9 @@ TEST_CASE("collides(segment3, plane, vector3)",
 		    {0.0f, 0.0f, 0.0f},
 		    {0.0f, 1.0f, 0.0f},
 		};
-		cdm::vector3 v;
-		CHECK(cdm::collides(s, p, v) == true);
-		CHECK(v == s.origin);
+		cdm::point3 o;
+		CHECK(cdm::collides(s, p, o) == true);
+		CHECK(o == s.origin);
 	}
 	{
 		cdm::segment3 s{
@@ -69,17 +69,17 @@ TEST_CASE("collides(segment3, plane, vector3)",
 		    {0.0f, -1.0f, 0.0f},
 		    {0.0f, 1.0f, 0.0f},
 		};
-		cdm::vector3 v;
-		CHECK(cdm::collides(s, p, v) == true);
-		CHECK(v == cdm::vector3{0.0f, 0.0f, 0.0f});
+		cdm::point3 o;
+		CHECK(cdm::collides(s, p, o) == true);
+		CHECK(o == cdm::point3{0.0f, 0.0f, 0.0f});
 	}
 	{
 		cdm::segment3 s{
 		    {-1.0f, -1.0f, -1.0f},
 		    {1.0f, 1.0f, 1.0f},
 		};
-		cdm::vector3 v;
-		CHECK(cdm::collides(s, p, v) == true);
-		CHECK(v == cdm::vector3{0.0f, 0.0f, 0.0f});
+		cdm::point3 o;
+		CHECK(cdm::collides(s, p, o) == true);
+		CHECK(o == cdm::point3{0.0f, 0.0f, 0.0f});
 	}
 }

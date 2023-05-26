@@ -40,8 +40,7 @@ constexpr point2_T<T>::point2_T(T x_, T y_) : x(x_), y(y_)
 }
 
 template <typename T>
-constexpr point2_T<T>::point2_T(const vector2_T<T>& v)
-    : point2_T(v.x, v.y)
+constexpr point2_T<T>::point2_T(const vector2_T<T>& v) : point2_T(v.x, v.y)
 {
 }
 

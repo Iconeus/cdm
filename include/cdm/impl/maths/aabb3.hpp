@@ -51,14 +51,10 @@ template <typename T>
 constexpr std::array<point3_T<T>, 8> aabb3_T<T>::get_points() const
 {
 	return std::array<point3_T<T>, 8>{
-	    point3_T<T>{box.min.x, box.min.y, box.min.z},
-	    point3_T<T>{box.max.x, box.min.y, box.min.z},
-	    point3_T<T>{box.min.x, box.max.y, box.min.z},
-	    point3_T<T>{box.max.x, box.max.y, box.min.z},
-	    point3_T<T>{box.min.x, box.min.y, box.max.z},
-	    point3_T<T>{box.max.x, box.min.y, box.max.z},
-	    point3_T<T>{box.min.x, box.max.y, box.max.z},
-	    point3_T<T>{box.max.x, box.max.y, box.max.z},
+	    point3_T<T>{min.x, min.y, min.z}, point3_T<T>{max.x, min.y, min.z},
+	    point3_T<T>{min.x, max.y, min.z}, point3_T<T>{max.x, max.y, min.z},
+	    point3_T<T>{min.x, min.y, max.z}, point3_T<T>{max.x, min.y, max.z},
+	    point3_T<T>{min.x, max.y, max.z}, point3_T<T>{max.x, max.y, max.z},
 	};
 }
 
@@ -81,8 +77,8 @@ constexpr aabb3_T<T>& aabb3_T<T>::grow(const aabb3_T<T>& box)
 template <typename T>
 constexpr aabb3_T<T>& aabb3_T<T>::grow(point3_T<T> point)
 {
-	box.min = cdm::element_wise_min(box.min, point);
-	box.max = cdm::element_wise_max(box.max, point);
+	min = cdm::element_wise_min(min, point);
+	max = cdm::element_wise_max(max, point);
 	return *this;
 }
 

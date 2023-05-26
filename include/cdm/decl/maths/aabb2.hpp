@@ -39,7 +39,7 @@ struct aabb2_T
 {
 	point2_T<T> min;
 	point2_T<T> max;
-	
+
 	constexpr bool contains(point2_T<T> p) const;
 
 	constexpr point2_T<T> get_center() const;
@@ -52,7 +52,7 @@ struct aabb2_T
 
 	constexpr aabb2_T operator+(const aabb2_T& rhs) const;
 	constexpr aabb2_T operator+(point2_T<T> rhs) const;
-	
+
 	constexpr aabb2_T& operator+=(const aabb2_T& rhs);
 	constexpr aabb2_T& operator+=(point2_T<T> rhs);
 

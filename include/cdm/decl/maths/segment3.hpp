@@ -37,8 +37,8 @@ namespace cdm
 template <typename T>
 struct segment3_T
 {
-	vector3_T<T> origin;
-	vector3_T<T> end;
+	point3_T<T> origin;
+	point3_T<T> end;
 
 	using underlying_type = T;
 };
@@ -50,7 +50,7 @@ constexpr bool collides(const segment3_T<T>& s,
 template <typename T>
 constexpr bool collides(const segment3_T<T>& s,
                         const plane_T<T>& p,
-                        vector3_T<T>& outPoint,
+                        point3_T<T>& outPoint,
                         T e = T(epsilon)) noexcept;
 
 template <typename T>

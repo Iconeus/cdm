@@ -47,7 +47,8 @@ template <typename T>
 constexpr bool collides(const ray2_T<T>& r, const segment2_T<T>& s);
 
 template <typename T>
-constexpr std::optional<point2_T<T>> intersection(const ray2_T<T>& r, const segment2_T<T>& s);
+constexpr std::optional<point2_T<T>> intersection(const ray2_T<T>& r,
+                                                  const segment2_T<T>& s);
 
 using ray2 = ray2_T<float>;
 using ray2d = ray2_T<double>;

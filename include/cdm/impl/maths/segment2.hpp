@@ -28,8 +28,8 @@ Written by Charles Seizilles de Mazancourt
 #ifndef CDM_MATHS_IMPL_SEGMENT2_HPP
 #define CDM_MATHS_IMPL_SEGMENT2_HPP 1
 
-#include <cdm/decl/maths/plane.hpp>
-#include <cdm/decl/maths/vector2.hpp>
+#include <cdm/decl/maths/point2.hpp>
+#include <cdm/decl/maths/segment2.hpp>
 
 #include <ostream>
 
@@ -57,8 +57,8 @@ constexpr segment2_T<T>& segment2_T<T>::invert()
 template <typename T>
 inline int collides(const segment2_T<T>& s0,
                     const segment2_T<T>& s1,
-                    vector2_T<T>& outPoint0,
-                    vector2_T<T>& outPoint1,
+                    point2_T<T>& outPoint0,
+                    point2_T<T>& outPoint1,
                     T e)
 {
 	auto det = [](T a, T b, T c, T d) -> T { return a * d - b * c; };
@@ -75,14 +75,14 @@ inline int collides(const segment2_T<T>& s0,
 		return std::max(a, c) <= std::min(b, d) + e;
 	};
 
-	auto compareP = [&](const cdm::vector2_T<T>& l,
-	                    const cdm::vector2_T<T>& r) -> bool
+	auto compareP = [&](const cdm::point2_T<T>& l,
+	                    const cdm::point2_T<T>& r) -> bool
 	{ return l.x < r.x - e || (std::abs(l.x - r.x) < e && l.y < r.y - e); };
 
-	vector2_T<T> a = s0.origin;
-	vector2_T<T> b = s0.end;
-	vector2_T<T> c = s1.origin;
-	vector2_T<T> d = s1.end;
+	point2_T<T> a = s0.origin;
+	point2_T<T> b = s0.end;
+	point2_T<T> c = s1.origin;
+	point2_T<T> d = s1.end;
 	if (!intersect_1d(a.x, b.x, c.x, d.x) || !intersect_1d(a.y, b.y, c.y, d.y))
 		return 0;
 
@@ -91,7 +91,7 @@ inline int collides(const segment2_T<T>& s0,
 		T a, b, c;
 
 		line() = default;
-		line(const cdm::vector2_T<T>& p, const cdm::vector2_T<T>& q)
+		line(const cdm::point2_T<T>& p, const cdm::point2_T<T>& q)
 		{
 			a = p.y - q.y;
 			b = q.x - p.x;
@@ -110,7 +110,7 @@ inline int collides(const segment2_T<T>& s0,
 			}
 		}
 
-		T dist(const cdm::vector2_T<T>& p) const
+		T dist(const cdm::point2_T<T>& p) const
 		{
 			return a * p.x + b * p.y + c;
 		}
@@ -152,16 +152,16 @@ inline int collides(const segment2_T<T>& s0,
 
 // https://stackoverflow.com/a/565282
 template <typename T>
-constexpr std::optional<vector2_T<T>> intersects(segment2_T<T> s0,
-                                                 segment2_T<T> s1,
-                                                 T e)
+constexpr std::optional<point2_T<T>> intersects(segment2_T<T> s0,
+                                                segment2_T<T> s1,
+                                                T e)
 {
-	vector2_T<T> p = s0.origin;
-	vector2_T<T> q = s1.origin;
-	vector2_T<T> r = from_to(p, s0.end);
-	vector2_T<T> s = from_to(q, s1.end);
+	point2_T<T> p = s0.origin;
+	point2_T<T> q = s1.origin;
+	point2_T<T> r = from_to(p, s0.end);
+	point2_T<T> s = from_to(q, s1.end);
 
-	vector2_T<T> qmp = q - p;
+	point2_T<T> qmp = q - p;
 
 	T rcs = cross(r, s);
 
