@@ -160,25 +160,32 @@ constexpr Vector<T> get_normalized(const Vector<T>& v)
 	return res;
 }
 
-template <typename T, template <typename> typename Vector>
-constexpr T dot(const Vector<T>& lhs, const Vector<T>& rhs)
+template <typename T,
+          template <typename>
+          typename LVector,
+          template <typename>
+          typename RVector>
+constexpr T dot(const LVector<T>& lhs, const RVector<T>& rhs)
 {
-	static_assert(Vector<T>::component_count == 2 ||
-	              Vector<T>::component_count == 3 ||
-	              Vector<T>::component_count == 4);
+	static_assert(LVector<T>::component_count == 2 ||
+	              LVector<T>::component_count == 3 ||
+	              LVector<T>::component_count == 4);
+	static_assert(LVector<T>::component_count == RVector<T>::component_count ||
+	              LVector<T>::component_count == RVector<T>::component_count ||
+	              LVector<T>::component_count == RVector<T>::component_count);
 
-	if constexpr (Vector<T>::component_count == 2)
+	if constexpr (LVector<T>::component_count == 2)
 	{
 		return get_x(lhs) * get_x(rhs) +  //
 		       get_y(lhs) * get_y(rhs);   //
 	}
-	else if constexpr (Vector<T>::component_count == 3)
+	else if constexpr (LVector<T>::component_count == 3)
 	{
 		return get_x(lhs) * get_x(rhs) +  //
 		       get_y(lhs) * get_y(rhs) +  //
 		       get_z(lhs) * get_z(rhs);   //
 	}
-	else if constexpr (Vector<T>::component_count == 4)
+	else if constexpr (LVector<T>::component_count == 4)
 	{
 		return get_x(lhs) * get_x(rhs) +  //
 		       get_y(lhs) * get_y(rhs) +  //

@@ -47,8 +47,8 @@ struct vector3_T
 	constexpr vector3_T() = default;
 	constexpr vector3_T(T x_, T y_, T z_);
 	constexpr vector3_T(const vector2_T<T>& v, T z_);
-	explicit constexpr vector3_T(const point3_T<T>& p);
-	explicit constexpr vector3_T(const direction3_T<T>& d);
+	constexpr vector3_T(const point3_T<T>& p);
+	constexpr vector3_T(const direction3_T<T>& d);
 
 	static constexpr vector3_T from_array(const std::array<T, 3>& arr);
 	constexpr std::array<T, 3> to_array() const;

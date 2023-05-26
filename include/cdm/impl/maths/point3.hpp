@@ -30,6 +30,8 @@ Written by Charles Seizilles de Mazancourt
 
 #include <cdm/decl/maths/point3.hpp>
 
+#include <string>
+
 namespace cdm
 {
 template <typename T>

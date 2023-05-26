@@ -86,9 +86,9 @@ constexpr T domain_transfer(cdm::value_domain_T<T> from,
                             cdm::value_domain_T<T> to,
                             T value) noexcept
 {
-	constexpr cdm::unnormalized_value_T<T> valueFrom{from, value};
-	constexpr cdm::normalized_value_T<T> norm{valueFrom};
-	constexpr cdm::unnormalized_value_T<T> valueTo{to, norm};
+	cdm::unnormalized_value_T<T> valueFrom{from, value};
+	cdm::normalized_value_T<T> norm{valueFrom};
+	cdm::unnormalized_value_T<T> valueTo{to, norm};
 	return valueTo.value();
 }
 }  // namespace cdm

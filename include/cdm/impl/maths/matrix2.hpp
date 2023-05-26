@@ -34,6 +34,7 @@ Written by Charles Seizilles de Mazancourt
 #include <cdm/decl/maths/vector2.hpp>
 #include <cdm/decl/maths/vector_proxy.hpp>
 
+#include <iomanip>
 #include <ostream>
 
 namespace cdm

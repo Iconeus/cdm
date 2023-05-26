@@ -41,7 +41,7 @@ constexpr radian_T<T>::radian_T(T f) : angle(f)
 }
 template <typename T>
 constexpr radian_T<T>::radian_T(degree_T<T> d)
-    : angle(static_cast<T>(d) * T(deg_To_rad))
+    : angle(static_cast<T>(d) * T(deg_to_rad))
 {
 }
 
@@ -95,7 +95,7 @@ constexpr radian_T<T> radian_T<T>::operator-() const
 template <typename T>
 constexpr radian_T<T>& radian_T<T>::operator=(degree_T<T> d)
 {
-	angle = d.angle * T(deg_To_rad);
+	angle = d.angle * T(deg_to_rad);
 	return *this;
 }
 

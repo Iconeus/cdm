@@ -86,6 +86,8 @@ struct quaternion_T
 	constexpr quaternion_T operator*(quaternion_T q) const;
 
 	constexpr vector3_T<T> operator*(vector3_T<T> v) const;
+	constexpr direction3_T<T> operator*(direction3_T<T> d) const;
+	constexpr point3_T<T> operator*(point3_T<T> p) const;
 	constexpr quaternion_T operator*(T f) const;
 	constexpr quaternion_T operator/(T f) const;
 

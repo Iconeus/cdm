@@ -65,8 +65,8 @@ template <arithmetic T>
 constexpr bool operator==(const normalized_value_T<T>& lhs,
                           const normalized_value_T<T>& rhs);
 
-using normalized_value = normalized_value_T<float>;
-using normalized_valued = normalized_value_T<double>;
+using normalized_float = normalized_value_T<float>;
+using normalized_double = normalized_value_T<double>;
 }  // namespace cdm
 
 #endif  // CDM_MATHS_DECL_NORMALIZED_VALUE_HPP

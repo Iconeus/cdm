@@ -65,8 +65,12 @@ constexpr Vector<T>& normalize(Vector<T>& v);
 template <typename T, template <typename> typename Vector>
 constexpr Vector<T> get_normalized(const Vector<T>& v);
 
-template <typename T, template <typename> typename Vector>
-constexpr T dot(const Vector<T>& lhs, const Vector<T>& rhs);
+template <typename T,
+          template <typename>
+          typename LVector,
+          template <typename>
+          typename RVector>
+constexpr T dot(const LVector<T>& lhs, const RVector<T>& rhs);
 
 template <typename T, template <typename> typename Vector>
 constexpr Vector<T> cross(const Vector<T>& lhs, const Vector<T>& rhs);

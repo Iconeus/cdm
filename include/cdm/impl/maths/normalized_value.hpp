@@ -32,6 +32,8 @@ Written by Charles Seizilles de Mazancourt
 #include <cdm/decl/maths/unnormalized_value.hpp>
 #include <cdm/decl/maths/value_domain.hpp>
 
+#include <algorithm>
+
 namespace cdm
 {
 template <arithmetic T>

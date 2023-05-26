@@ -156,28 +156,28 @@ constexpr std::optional<vector2_T<T>> intersects(segment2_T<T> s0,
                                                  segment2_T<T> s1,
                                                  T e)
 {
-	constexpr vector2_T<T> p = s0.origin;
-	constexpr vector2_T<T> q = s1.origin;
-	constexpr vector2_T<T> r = from_to(p, s0.end);
-	constexpr vector2_T<T> s = from_to(q, s1.end);
+	vector2_T<T> p = s0.origin;
+	vector2_T<T> q = s1.origin;
+	vector2_T<T> r = from_to(p, s0.end);
+	vector2_T<T> s = from_to(q, s1.end);
 
-	constexpr vector2_T<T> qmp = q - p;
+	vector2_T<T> qmp = q - p;
 
-	constexpr T rcs = cross(r, s);
+	T rcs = cross(r, s);
 
-	if constexpr (nearly_equal(rcs, T(0), e))  // coline_Tar
+	if (nearly_equal(rcs, T(0), e))  // coline_Tar
 	{
-		if constexpr (nearly_equal(cross(qmp, r), T(0),
-		                           e))  // same line_T, different segments
+		if (nearly_equal(cross(qmp, r), T(0),
+		                 e))  // same line_T, different segments
 		{
-			constexpr T invrdr = T(1) / dot(r, r);
-			constexpr T t0 = dot(qmp, r) * invrdr;
-			constexpr T t1 = dot(qmp + s, r) * invrdr;
+			T invrdr = T(1) / dot(r, r);
+			T t0 = dot(qmp, r) * invrdr;
+			T t1 = dot(qmp + s, r) * invrdr;
 
-			if constexpr (dot(s, r) < T(0))
+			if (dot(s, r) < T(0))
 				std::swap(t0, t1);
 
-			if constexpr (t0 <= T(1) && t0 >= T(0) || t1 <= T(1) && t1 >= T(0))
+			if (t0 <= T(1) && t0 >= T(0) || t1 <= T(1) && t1 >= T(0))
 			{
 				return s0.origin;  /// TODO: better than that
 			}
@@ -191,13 +191,12 @@ constexpr std::optional<vector2_T<T>> intersects(segment2_T<T> s0,
 	}
 	else
 	{
-		constexpr T invrcs = T(1) / rcs;
+		T invrcs = T(1) / rcs;
 
-		constexpr T t = cross(qmp, s) * invrcs;
-		constexpr T u = cross(qmp, r) * invrcs;
+		T t = cross(qmp, s) * invrcs;
+		T u = cross(qmp, r) * invrcs;
 
-		if constexpr (t >= T(0) && t <= T(1) && u >= T(0) &&
-		              u <= T(1))  // intersects
+		if (t >= T(0) && t <= T(1) && u >= T(0) && u <= T(1))  // intersects
 		{
 			return p + r * t;
 		}

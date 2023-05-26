@@ -31,6 +31,8 @@ Written by Charles Seizilles de Mazancourt
 #include <cdm/decl/maths/complex.hpp>
 #include <cdm/decl/maths/radian.hpp>
 
+#include <cmath>
+
 namespace cdm
 {
 template <typename T>

@@ -42,7 +42,7 @@ constexpr degree_T<T>::degree_T(T f) : angle(f)
 
 template <typename T>
 constexpr degree_T<T>::degree_T(radian_T<T> r)
-    : angle(static_cast<T>(r) * T(rad_To_deg))
+    : angle(static_cast<T>(r) * T(rad_to_deg))
 {
 }
 

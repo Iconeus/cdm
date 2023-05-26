@@ -33,6 +33,7 @@ Written by Charles Seizilles de Mazancourt
 #include <cdm/decl/maths/radian.hpp>
 
 #include <cassert>
+#include <iomanip>
 #include <ostream>
 
 namespace cdm
@@ -285,7 +286,7 @@ euler_angles_T<T> quaternion_T<T>::to_euler_angles() const
 	return cdm::euler_angles_T<T>{
 	    cdm::radian_T<T>(
 	        std::atan2(T(2) * (w * x + y * z), T(1) - T(2) * (x * x + y * y))),
-	    cdm::radian_T<T>(cdm::asin(T(2) * (w * y - z * x))),
+	    cdm::radian_T<T>(std::asin(T(2) * (w * y - z * x))),
 	    cdm::radian_T<T>(
 	        std::atan2(T(2) * (w * z + x * y), T(1) - T(2) * (y * y + z * z))),
 	};
@@ -322,6 +323,22 @@ constexpr vector3_T<T> quaternion_T<T>::operator*(vector3_T<T> v) const
 	uv = uv * (T(2) * w);
 	uuv = uuv * T(2);
 	return v + uv + uuv;
+}
+
+template <typename T>
+constexpr direction3_T<T> quaternion_T<T>::operator*(direction3_T<T> d) const
+{
+	vector3_T<T> v(d);
+	vector3_T<T> res = *this * v;
+	return direction3_T<T>(res);
+}
+
+template <typename T>
+constexpr point3_T<T> quaternion_T<T>::operator*(point3_T<T> p) const
+{
+	vector3_T<T> v(p);
+	vector3_T<T> res = *this * v;
+	return point3_T<T>(res);
 }
 
 template <typename T>

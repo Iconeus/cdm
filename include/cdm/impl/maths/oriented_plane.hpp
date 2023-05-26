@@ -68,9 +68,9 @@ constexpr oriented_plane_T<T>::operator oriented_plane_T<U>() const
 template <typename T>
 constexpr T oriented_plane_T<T>::evaluate(vector3_T<T> point) const
 {
-	return normal->x * (point.x - origin.x) +  //
-	       normal->y * (point.y - origin.y) +  //
-	       normal->z * (point.z - origin.z);   //
+	return normal.x() * (point.x - origin.x) +  //
+	       normal.y() * (point.y - origin.y) +  //
+	       normal.z() * (point.z - origin.z);   //
 }
 
 template <typename T>
@@ -103,7 +103,7 @@ constexpr vector3_T<T> oriented_plane_T<T>::unproject(vector2_T<T> point) const
 	                       vector3_T<T>(normal))
 	        .get_inversed();
 
-	constexpr auto pointInPlaneSpace = vector3_T<T>{point, T(0)};
+	auto pointInPlaneSpace = vector3_T<T>{point, T(0)};
 
 	return (invTBN * pointInPlaneSpace) + origin;
 }
@@ -114,11 +114,11 @@ constexpr bool collides(const oriented_plane_T<T>& plane,
                         vector3_T<T>& collision_point,
                         T e)
 {
-	constexpr T denom = dot(plane.normal, r.direction);
-	if constexpr (abs(denom) > e)
+	T denom = dot(plane.normal, r.direction);
+	if (abs(denom) > e)
 	{
-		constexpr T t = -dot(plane.origin - r.origin, plane.normal) / denom;
-		if constexpr (t >= T(0))
+		T t = -dot(plane.origin - r.origin, plane.normal) / denom;
+		if (t >= T(0))
 		{
 			collision_point = r.origin + r.direction * t;
 			return true;
@@ -133,10 +133,10 @@ constexpr bool collides_bidirectional(const oriented_plane_T<T>& plane,
                                       vector3_T<T>& collision_point,
                                       T e)
 {
-	constexpr T denom = dot(plane.normal, r.direction);
-	if constexpr (abs(denom) > e)
+	T denom = dot(plane.normal, r.direction);
+	if (abs(denom) > e)
 	{
-		constexpr T t =
+		T t =
 		    -dot(plane.origin - r.origin, vector3_T<T>(plane.normal)) / denom;
 
 		collision_point = r.origin + r.direction * t;

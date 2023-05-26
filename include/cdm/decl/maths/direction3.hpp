@@ -43,6 +43,7 @@ public:
 	using underlying_type = T;
 	static constexpr size_t component_count = 3;
 
+	constexpr direction3_T() = default;
 	constexpr direction3_T(T x_, T y_, T z_);
 	explicit constexpr direction3_T(const vector3_T<T>& v);
 
@@ -76,8 +77,6 @@ public:
 	static constexpr direction3_T negZ();
 
 private:
-	constexpr direction3_T() = default;
-
 	T m_x;
 	T m_y;
 	T m_z;
