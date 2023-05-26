@@ -45,9 +45,9 @@ Written by Charles Seizilles de Mazancourt
 
 namespace cdm
 {
-constexpr uint64_t VERSION_MAJOR = 3;
-constexpr uint64_t VERSION_MINOR = 0;
-constexpr uint64_t VERSION_PATCH = 0;
+constexpr uint64_t version_major = 3;
+constexpr uint64_t version_minor = 0;
+constexpr uint64_t version_patch = 0;
 }  // namespace cdm
 
 #include <cdm/decl/maths.hpp>
