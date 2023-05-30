@@ -28,16 +28,20 @@ Written by Charles Seizilles de Mazancourt
 #ifndef CDM_MATHS_CONSTANTS_HPP
 #define CDM_MATHS_CONSTANTS_HPP 1
 
+#include <numbers>
+
 namespace cdm
 {
 // clang-format off
-constexpr double pi = 3.1415926535897932384626433832795028841971693993751058209749445923;
+using std::numbers::pi;
+using std::numbers::inv_pi;
+using std::numbers::inv_sqrtpi;
 constexpr double deg_to_rad = pi / 180.0;
 constexpr double rad_to_deg = 180.0 / pi;
-constexpr double sqrt2 = 1.4142135623730950488016887242096980785696718753769480731766797379;
-constexpr double sqrt3 = 1.7320508075688772935274463415058723669428052538103806280558069794;
+using std::numbers::sqrt2;
+using std::numbers::sqrt3;
 constexpr double inv_sqrt2 = 0.7071067811865475244008443621048490392848359376884740365883398689;
-constexpr double inv_sqrt3 = 0.5773502691896257645091487805019574556476017512701268760186023264;
+using std::numbers::inv_sqrt3;
 constexpr double sqrt3_over_2 = 0.8660254037844386467637231707529361834714026269051903140279034897;
 constexpr double epsilon = 1.0e-05;
 // clang-format on
