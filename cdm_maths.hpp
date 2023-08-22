@@ -1,4 +1,4 @@
-/* cdm_maths v3.0.0
+/* cdm_maths v3.0.1
    C++20 geometric library
    https://github.com/WubiCookie/cdm
    no warranty implied; use at your own risk
