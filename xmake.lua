@@ -4,6 +4,18 @@ add_requires("catch2 2.13.9")
 set_arch("x64")
 set_plat("windows")
 
+add_repositories("iconeus-repo https://github.com/Iconeus/xmake-repo.git")
+
+option("cdm.format")
+	set_default(true)
+	set_showmenu(true)
+	set_description("Set this option if you wish for the source code to be auto-formatted")
+option_end()
+
+if has_config("cdm.format") then
+	add_requires("clang-format 16.0.6")
+end
+
 -- Generates a hash key made of packages confs/version, for CI
 task("dephash")
 	on_run(function ()
@@ -29,43 +41,10 @@ task("dephash")
 	}
 task_end()
 
-rule("format_before_build")
-	before_build(function(target)
-		import("detect.sdks.find_vstudio")
-		import("lib.detect.find_program")
-
-		local vstudio = find_vstudio()
-		local vs = vstudio["2022"]
-		if vs == nil then
-			vs = vstudio["2019"]
-
-			if vs == nil then
-				raise("Visual Studio 2022 or 2019 is required")
-			end
-		end
-
-		local clangformat = find_program("clang-format.exe", {envs = {PATH = vs.vcvarsall.x64.PATH}})
-		if clangformat == nil or clangformat == "" then
-			print("clang-format.exe not found in", vs.vcvarsall.x64.PATH)
-			raise("clang-format is required. Please install the C++ Clang Compiler for Windows >= 15.0.1 in Visual Studio Install Individual components (Tools/Get Tools and Features...)")
-		end
-
-		local sourcefiles = target:sourcefiles()
-		local headerfiles = target:headerfiles()
-
-		for k, v in pairs(sourcefiles) do
-			os.exec(clangformat .. " --style=file -i " .. v)
-		end
-		for k, v in pairs(headerfiles) do
-			os.exec(clangformat .. " --style=file -i " .. v)
-		end
-	end)
-rule_end()
-
 target("cdm")
 	set_kind("phony")
 	set_languages("c++20")
-	add_rules("format_before_build")
+	add_rules("@clang-format/format_before_build")
 	add_headerfiles("*.hpp")
 	add_includedirs(".")
 target_end()
@@ -99,7 +78,7 @@ for _,v in pairs(tests) do
 		set_kind("binary")
 		set_languages("c++20")
 		add_deps("cdm")
-		add_rules("format_before_build")
+		add_rules("@clang-format/format_before_build")
 		add_files("tests/"..v..".cpp")
 		add_headerfiles("*.hpp")
 		add_headerfiles("tests/*.hpp")
