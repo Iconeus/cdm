@@ -37,10 +37,6 @@ jobs:
       with:
         xmake-version: branch@dev
 
-    # Update xmake repository (in order to have the file that will be cached)
-    - name: Update xmake repository
-      run: xmake.exe repo --update
-
     # Fetch xmake dephash
     - name: Retrieve dependencies hash
       id: dep_hash
@@ -55,7 +51,11 @@ jobs:
 
     # Setup compilation mode and install project dependencies
     - name: Configure xmake and install dependencies
-      run: xmake.exe config --arch=${{ matrix.arch }} --mode=${{ matrix.mode }} --yes --verbose
+      run: xmake.exe config --arch=${{ matrix.arch }} --mode=${{ matrix.mode }} --cdm.format=false --yes --verbose
+
+    # Update xmake repository (in order to have the file that will be cached)
+    - name: Update xmake repository
+      run: xmake.exe repo --update
 
     # Build the tests
     - name: Build cdm tests

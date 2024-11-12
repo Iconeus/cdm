@@ -4,8 +4,6 @@ add_requires("catch2 2.13.9")
 set_arch("x64")
 set_plat("windows")
 
-add_repositories("iconeus-repo https://github.com/Iconeus/xmake-repo.git")
-
 option("cdm.format")
 	set_default(true)
 	set_showmenu(true)
@@ -13,6 +11,7 @@ option("cdm.format")
 option_end()
 
 if has_config("cdm.format") then
+	add_repositories("iconeus-repo https://github.com/Iconeus/xmake-repo.git")
 	add_requires("clang-format 16.0.6")
 end
 
