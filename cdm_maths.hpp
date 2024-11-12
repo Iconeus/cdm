@@ -511,8 +511,6 @@ constexpr bool operator>(radian_T<T>, radian_T<T>);
 template <arithmetic T>
 constexpr bool operator==(radian_T<T>, radian_T<T>);
 template <arithmetic T>
-constexpr bool operator!=(radian_T<T>, radian_T<T>);
-template <arithmetic T>
 constexpr bool operator>=(radian_T<T>, radian_T<T>);
 template <arithmetic T>
 constexpr bool operator<=(radian_T<T>, radian_T<T>);
@@ -603,8 +601,6 @@ template <arithmetic T>
 constexpr bool operator>(degree_T<T>, degree_T<T>);
 template <arithmetic T>
 constexpr bool operator==(degree_T<T>, degree_T<T>);
-template <arithmetic T>
-constexpr bool operator!=(degree_T<T>, degree_T<T>);
 template <arithmetic T>
 constexpr bool operator>=(degree_T<T>, degree_T<T>);
 template <arithmetic T>
@@ -977,17 +973,6 @@ constexpr bool operator==(
 	return lhs.numerator == rhs.numerator &&
 	       lhs.denominator == rhs.denominator;
 }
-template <std::signed_integral T,
-          T NumeratorTL,
-          T DenominatorTL,
-          T NumeratorTR,
-          T DenominatorTR>
-constexpr bool operator!=(
-    const static_pi_fraction_T<T, NumeratorTL, DenominatorTL>& lhs,
-    const static_pi_fraction_T<T, NumeratorTR, DenominatorTR>& rhs)
-{
-	return !(lhs == rhs);
-}
 
 template <arithmetic U, std::signed_integral T, T NumeratorT, T DenominatorT>
 U sin(static_pi_fraction_T<T, NumeratorT, DenominatorT> d)
@@ -1270,7 +1255,6 @@ struct vector2_T
 	constexpr vector2_T operator-() const;
 
 	constexpr bool operator==(vector2_T v) const;
-	constexpr bool operator!=(vector2_T v) const;
 
 	static constexpr vector2_T zero() { return { T(0), T(0) }; }
 	static constexpr vector2_T one() { return { T(1), T(1) }; }
@@ -1395,7 +1379,6 @@ struct vector3_T
 	constexpr vector3_T operator-() const;
 
 	constexpr bool operator==(vector3_T v) const;
-	constexpr bool operator!=(vector3_T v) const;
 
 	static constexpr vector3_T zero() { return { T(0), T(0), T(0) }; }
 	static constexpr vector3_T one() { return { T(1), T(1), T(1) }; }
@@ -1528,7 +1511,6 @@ struct vector4_T
 	constexpr vector4_T operator-() const;
 
 	constexpr bool operator==(vector4_T v) const;
-	constexpr bool operator!=(vector4_T v) const;
 
 	static constexpr vector4_T zero() { return { T(0), T(0), T(0), T(0) }; }
 	static constexpr vector4_T one() { return { T(1), T(1), T(1), T(1) }; }
@@ -1607,9 +1589,7 @@ public:
 	constexpr normalized operator-() const;
 
 	constexpr bool operator==(const normalized& n) const;
-	constexpr bool operator!=(const normalized& n) const;
 	constexpr bool operator==(const T& v) const;
-	constexpr bool operator!=(const T& v) const;
 
 	normalized& operator=(const normalized&) = default;
 	normalized& operator=(normalized&&) = default;
@@ -2493,7 +2473,6 @@ public:
 	constexpr direction2_T operator-() const;
 
 	constexpr bool operator==(const direction2_T& v) const;
-	constexpr bool operator!=(const direction2_T& v) const;
 
 	constexpr bool nearly_equal(const direction2_T& v, T e = T(epsilon)) const;
 
@@ -2558,7 +2537,6 @@ public:
 	constexpr direction3_T operator-() const;
 
 	constexpr bool operator==(const direction3_T& v) const;
-	constexpr bool operator!=(const direction3_T& v) const;
 
 	constexpr bool nearly_equal(const direction3_T& v, T e = T(epsilon)) const;
 
@@ -2681,7 +2659,6 @@ struct quaternion_T
 	constexpr quaternion_T operator-() const;
 
 	constexpr bool operator==(quaternion_T v) const;
-	constexpr bool operator!=(quaternion_T v) const;
 
 	using underlying_type = T;
 };
@@ -3511,11 +3488,6 @@ constexpr bool operator==(radian_T<T> lhs, radian_T<T> rhs)
 	return T(lhs) == T(rhs);
 }
 template <arithmetic T>
-constexpr bool operator!=(radian_T<T> lhs, radian_T<T> rhs)
-{
-	return T(lhs) != T(rhs);
-}
-template <arithmetic T>
 constexpr bool operator>=(radian_T<T> lhs, radian_T<T> rhs)
 {
 	return T(lhs) >= T(rhs);
@@ -3702,11 +3674,6 @@ constexpr bool operator==(degree_T<T> lhs, degree_T<T> rhs)
 	return T(lhs) == T(rhs);
 }
 template <arithmetic T>
-constexpr bool operator!=(degree_T<T> lhs, degree_T<T> rhs)
-{
-	return T(lhs) != T(rhs);
-}
-template <arithmetic T>
 constexpr bool operator>=(degree_T<T> lhs, degree_T<T> rhs)
 {
 	return T(lhs) >= T(rhs);
@@ -3820,11 +3787,6 @@ template <arithmetic T>
 constexpr bool vector2_T<T>::operator==(vector2_T<T> v) const
 {
 	return x == v.x && y == v.y;
-}
-template <arithmetic T>
-constexpr bool vector2_T<T>::operator!=(vector2_T<T> v) const
-{
-	return !operator==(v);
 }
 
 template <arithmetic T>
@@ -4049,11 +4011,6 @@ constexpr bool vector3_T<T>::operator==(vector3_T<T> v) const
 {
 	return x == v.x && y == v.y && z == v.z;
 }
-template <arithmetic T>
-constexpr bool vector3_T<T>::operator!=(vector3_T<T> v) const
-{
-	return !operator==(v);
-}
 
 template <arithmetic T>
 constexpr vector3_T<T> operator*(T f, vector3_T<T> v)
@@ -4270,11 +4227,6 @@ constexpr bool vector4_T<T>::operator==(vector4_T<T> v) const
 {
 	return x == v.x && y == v.y && z == v.z && w == v.w;
 }
-template <arithmetic T>
-constexpr bool vector4_T<T>::operator!=(vector4_T<T> v) const
-{
-	return !operator==(v);
-}
 
 template <arithmetic T>
 constexpr vector4_T<T> operator*(T f, vector4_T<T> v)
@@ -4460,19 +4412,9 @@ constexpr bool normalized<T>::operator==(const normalized<T>& v) const
 	return vector == v.vector;
 }
 template <normalizable T>
-constexpr bool normalized<T>::operator!=(const normalized<T>& v) const
-{
-	return vector != v.vector;
-}
-template <normalizable T>
 constexpr bool normalized<T>::operator==(const T& v) const
 {
 	return vector == v;
-}
-template <normalizable T>
-constexpr bool normalized<T>::operator!=(const T& v) const
-{
-	return vector != v;
 }
 
 template <arithmetic T>
@@ -5965,12 +5907,6 @@ constexpr bool direction2_T<T>::operator==(const direction2_T<T>& v) const
 }
 
 template <arithmetic T>
-constexpr bool direction2_T<T>::operator!=(const direction2_T<T>& v) const
-{
-	return !operator==(v);
-}
-
-template <arithmetic T>
 constexpr bool direction2_T<T>::nearly_equal(const direction2_T<T>& v,
                                              T e) const
 {
@@ -6145,12 +6081,6 @@ template <arithmetic T>
 constexpr bool direction3_T<T>::operator==(const direction3_T<T>& v) const
 {
 	return m_x == v.m_x && m_y == v.m_y && m_z == v.m_z;
-}
-
-template <arithmetic T>
-constexpr bool direction3_T<T>::operator!=(const direction3_T<T>& v) const
-{
-	return !operator==(v);
 }
 
 template <arithmetic T>
@@ -6599,11 +6529,6 @@ constexpr bool quaternion_T<T>::operator==(quaternion_T<T> q) const
 	       y == q.y &&  //
 	       z == q.z &&  //
 	       w == q.w;    //
-}
-template <arithmetic T>
-constexpr bool quaternion_T<T>::operator!=(quaternion_T<T> q) const
-{
-	return !operator==(q);
 }
 
 template <arithmetic T>
